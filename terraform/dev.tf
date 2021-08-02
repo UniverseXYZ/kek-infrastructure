@@ -67,28 +67,25 @@ module "dev_frontend_basic_auth" {
   }
 }
 
-# Frontend
-
-module "universe_xyz_acm_certificate" {
+module "dev_universe_xyz_acm_certificate" {
   source                      = "cloudposse/acm-request-certificate/aws"
   version                     = "0.10.0"
   zone_name                   = "universe.xyz"
-  domain_name                 = "universe.xyz"
-  subject_alternative_names   = ["www.universe.xyz"]
+  domain_name                 = "dev.universe.xyz"
   wait_for_certificate_issued = true
 }
 
-module "universe_xyz_frontend" {
+module "dev_universe_xyz_frontend" {
   source             = "cloudposse/cloudfront-s3-cdn/aws"
   version            = "0.40.0"
-  name               = "universe.xyz"
+  name               = "dev.universe.xyz"
   encryption_enabled = true
-  environment        = "prod"
+  environment        = "dev"
   # DNS Settings
   parent_zone_id      = aws_route53_zone.main.zone_id
-  acm_certificate_arn = module.universe_xyz_acm_certificate.arn
+  acm_certificate_arn = module.dev_universe_xyz_acm_certificate.arn
   dns_alias_enabled   = true
-  aliases             = ["universe.xyz"]
+  aliases             = ["dev.universe.xyz"]
   ipv6_enabled        = true
   # Caching Settings
   default_ttl = 300
@@ -103,9 +100,15 @@ module "universe_xyz_frontend" {
     response_code         = "200"
     response_page_path    = "/index.html"
   }]
-  logging_enabled          = false
+  logging_enabled = false
+
+  lambda_function_association = [{
+    event_type   = "viewer-request"
+    include_body = false
+    lambda_arn   = module.dev_frontend_basic_auth.arn
+  }]
   minimum_protocol_version = "TLSv1.2_2019"
-  depends_on               = [module.universe_xyz_acm_certificate]
+  depends_on               = [module.dev_universe_xyz_acm_certificate]
 }
 
 resource "aws_s3_bucket" "universeapp_assets_dev" {

@@ -51,3 +51,42 @@ module "prod_frontend" {
   minimum_protocol_version = "TLSv1.2_2019"
   depends_on               = [module.prod_acm_certificate]
 }
+
+module "universe_xyz_acm_certificate" {
+  source                      = "cloudposse/acm-request-certificate/aws"
+  version                     = "0.10.0"
+  zone_name                   = "universe.xyz"
+  domain_name                 = "universe.xyz"
+  subject_alternative_names   = ["www.universe.xyz"]
+  wait_for_certificate_issued = true
+}
+
+module "universe_xyz_frontend" {
+  source             = "cloudposse/cloudfront-s3-cdn/aws"
+  version            = "0.40.0"
+  name               = "universe.xyz"
+  encryption_enabled = true
+  environment        = "prod"
+  # DNS Settings
+  parent_zone_id      = aws_route53_zone.main.zone_id
+  acm_certificate_arn = module.universe_xyz_acm_certificate.arn
+  dns_alias_enabled   = true
+  aliases             = ["universe.xyz"]
+  ipv6_enabled        = true
+  # Caching Settings
+  default_ttl = 300
+  compress    = true
+  # Website settings
+  website_enabled = true
+  index_document  = "index.html" # absolute path in the S3 bucket
+  error_document  = "index.html" # absolute path in the S3 bucket
+  custom_error_response = [{
+    error_caching_min_ttl = "0"
+    error_code            = "404"
+    response_code         = "200"
+    response_page_path    = "/index.html"
+  }]
+  logging_enabled          = false
+  minimum_protocol_version = "TLSv1.2_2019"
+  depends_on               = [module.universe_xyz_acm_certificate]
+}
