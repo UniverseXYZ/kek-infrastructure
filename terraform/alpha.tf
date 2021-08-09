@@ -86,6 +86,36 @@ module "alpha_universe_xyz_frontend" {
     response_page_path    = "/index.html"
   }]
   logging_enabled          = false
+
+  lambda_function_association = [{
+    event_type   = "viewer-request"
+    include_body = false
+    lambda_arn   = module.alpha_frontend_basic_auth.arn
+  }]
   minimum_protocol_version = "TLSv1.2_2019"
   depends_on               = [module.alpha_universe_xyz_acm_certificate]
+}
+
+
+resource "aws_s3_bucket" "alpha_lambda" {
+  bucket = "universe-xyz-alpha-lambda-functions"
+  acl    = "private"
+
+  versioning {
+    enabled = true
+  }
+}
+
+module "alpha_frontend_basic_auth" {
+  source                 = "transcend-io/lambda-at-edge/aws"
+  version                = "0.2.3"
+  name                   = "alpha_frontend_basic_auth"
+  description            = "Add basic-auth for dev frontend"
+  runtime                = "nodejs12.x"
+  lambda_code_source_dir = "lambda_functions/basic-auth"
+  s3_artifact_bucket     = aws_s3_bucket.alpha_lambda.id
+
+  tags = {
+    Environment = "alpha"
+  }
 }
