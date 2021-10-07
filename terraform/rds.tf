@@ -66,7 +66,7 @@ module "dev_db" {
 
   identifier        = "dev-universe"
   engine            = "postgres"
-  engine_version    = "12.5"
+  engine_version    = "12.7"
   instance_class    = "db.t3.small"
   allocated_storage = 8
   storage_encrypted = true
@@ -108,7 +108,7 @@ module "alpha_db" {
 
   identifier        = "alpha-universe"
   engine            = "postgres"
-  engine_version    = "12.5"
+  engine_version    = "12.7"
   instance_class    = "db.m6g.large"
   allocated_storage = 80
   storage_encrypted = true
@@ -150,7 +150,7 @@ module "prod_db" {
 
   identifier        = "prod-universe"
   engine            = "postgres"
-  engine_version    = "12.5"
+  engine_version    = "12.7"
   instance_class    = "db.m6g.large"
   allocated_storage = 80
   storage_encrypted = true

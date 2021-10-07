@@ -96,9 +96,17 @@ resource "aws_route53_record" "txt" {
   type    = "TXT"
   ttl     = "3600"
   records = [
-    "v=spf1 include:_spf.google.com -all",
+    "v=spf1 include:_spf.google.com include:amazonses.com -all",
     "google-site-verification=NIQ2z9406qIesc3T-s5GvB8FXlscpCCvH52zPhfmEVs"
   ]
+}
+
+resource "aws_route53_record" "dmarc" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "_dmarc.universe.xyz"
+  type    = "TXT"
+  ttl     = "3600"
+  records = ["v=DMARC1;p=quarantine;pct=100;fo=1"]
 }
 
 resource "aws_route53_record" "gitbook" {
