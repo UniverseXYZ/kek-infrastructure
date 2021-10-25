@@ -119,3 +119,75 @@ module "alpha_frontend_basic_auth" {
     Environment = "alpha"
   }
 }
+
+resource "aws_s3_bucket" "universeapp_assets_alpha" {
+  bucket = "universeapp-assets-alpha"
+  acl    = "public-read"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  tags = {
+    Name        = "universeapp-assets-alpha"
+    Project     = "kekdao"
+    Environment = "alpha"
+  }
+}
+
+data "aws_iam_policy_document" "universeapp_assets_alpha" {
+  statement {
+    actions = [
+      "s3:ListBucket"
+    ]
+    resources = [
+      aws_s3_bucket.universeapp_assets_alpha.arn
+    ]
+    effect = "Allow"
+  }
+  statement {
+    actions = [
+      "s3:*",
+    ]
+    resources = [
+      format("%s/*", aws_s3_bucket.universeapp_assets_alpha.arn)
+    ]
+    effect = "Allow"
+  }
+}
+
+resource "aws_iam_user" "universeapp_assets_alpha" {
+  name = "universeapp-assets-alpha"
+  path = "/app/"
+
+  tags = {
+    Environment = "alpha"
+  }
+}
+
+resource "aws_iam_access_key" "universeapp_assets_alpha" {
+  user = aws_iam_user.universeapp_assets_alpha.name
+}
+
+resource "aws_iam_user_policy" "universeapp_assets_alpha" {
+  name   = "universeapp-assets-alpha"
+  user   = aws_iam_user.universeapp_assets_alpha.name
+  policy = data.aws_iam_policy_document.universeapp_assets_alpha.json
+}
+
+output "universeapp_assets_alpha_access_key_id" {
+  value = aws_iam_access_key.universeapp_assets_alpha.id
+}
+
+output "universeapp_assets_alpha_secret_access_key" {
+  sensitive = true
+  value     = aws_iam_access_key.universeapp_assets_alpha.secret
+}

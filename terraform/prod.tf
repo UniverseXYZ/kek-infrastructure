@@ -90,3 +90,77 @@ module "universe_xyz_frontend" {
   minimum_protocol_version = "TLSv1.2_2019"
   depends_on               = [module.universe_xyz_acm_certificate]
 }
+
+# s3 bucket with poliy controll
+
+resource "aws_s3_bucket" "universeapp_assets_prod" {
+  bucket = "universeapp-assets-prod"
+  acl    = "public-read"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  tags = {
+    Name        = "universeapp-assets-prod"
+    Project     = "kek"
+    Environment = "prod"
+  }
+}
+
+data "aws_iam_policy_document" "universeapp_assets_prod" {
+  statement {
+    actions = [
+      "s3:ListBucket"
+    ]
+    resources = [
+      aws_s3_bucket.universeapp_assets_prod.arn
+    ]
+    effect = "Allow"
+  }
+  statement {
+    actions = [
+      "s3:*",
+    ]
+    resources = [
+      format("%s/*", aws_s3_bucket.universeapp_assets_prod.arn)
+    ]
+    effect = "Allow"
+  }
+}
+
+resource "aws_iam_user" "universeapp_assets_prod" {
+  name = "universeapp-assets-prod"
+  path = "/app/"
+
+  tags = {
+    Environment = "prod"
+  }
+}
+
+resource "aws_iam_access_key" "universeapp_assets_prod" {
+  user = aws_iam_user.universeapp_assets_prod.name
+}
+
+resource "aws_iam_user_policy" "universeapp_assets_prod" {
+  name   = "universeapp-assets-prod"
+  user   = aws_iam_user.universeapp_assets_prod.name
+  policy = data.aws_iam_policy_document.universeapp_assets_prod.json
+}
+
+output "universeapp_assets_prod_access_key_id" {
+  value = aws_iam_access_key.universeapp_assets_prod.id
+}
+
+output "universeapp_assets_prod_secret_access_key" {
+  sensitive = true
+  value     = aws_iam_access_key.universeapp_assets_prod.secret
+}
