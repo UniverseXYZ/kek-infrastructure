@@ -116,6 +116,35 @@ resource "aws_s3_bucket" "universeapp_assets_prod" {
   }
 }
 
+
+resource "aws_s3_bucket_policy" "universeapp_assets_prod" {
+  bucket = aws_s3_bucket.universeapp_assets_prod.id
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression's result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Id      = "MYBUCKETPOLICY"
+    Statement = [
+      {
+        Sid       = "universeappAssetsProd"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = ["s3:GetObject","s3:GetObjectVersion"]
+        Resource = [
+          aws_s3_bucket.universeapp_assets_prod.arn,
+          "${aws_s3_bucket.universeapp_assets_prod.arn}/*",
+        ]
+#        Condition = {
+#          IpAddress = {
+#            "aws:SourceIp" = "0.0.0.0/0"
+#          }
+#        }
+      },
+    ]
+  })
+}
+
 data "aws_iam_policy_document" "universeapp_assets_prod" {
   statement {
     actions = [
