@@ -13,8 +13,8 @@ variable external_developers_list {
      3 : { "name": "ViktorTodorov",
            "email": "viktor.todorov@limechain.tech"
           },
-     4 : { "name": "JohnCarter",
-           "email": "johncarter7061@gmail.com"
+     4 : { "name": "BorisBonin",
+           "email": "boris.bonin@limechain.tech"
           },
   }
 
