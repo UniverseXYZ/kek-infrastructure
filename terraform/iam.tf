@@ -40,19 +40,11 @@ resource "aws_iam_user" "external_developers" {
     }
 }
 
-locals  {
-  users_list = [ for user in var.external_developers_list: user.name ]
-}
-
-output testuser {
-  value = local.users_list
-}
 
 # Assigne users to group
 resource "aws_iam_group_membership" "external_developers" {
   name = "external-developers"
 
-#  users = local.users_list
   users = [ for user in var.external_developers_list: user.name ]
   group = aws_iam_group.external_developers.name
 }
