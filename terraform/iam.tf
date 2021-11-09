@@ -4,8 +4,8 @@ variable external_developers_list {
   type = map
 
   default = {
-     1 : { "name": "JohnCarter",
-           "email": "johncarter7061@gmail.com"
+     1 : { "name": "BorisBonin",
+           "email": "boris.bonin@limechain.tech"
           },
      2 : { "name": "VadimTest",
            "email": "vadim.lun9u@gmail.com"
@@ -13,8 +13,8 @@ variable external_developers_list {
      3 : { "name": "ViktorTodorov",
            "email": "viktor.todorov@limechain.tech"
           },
-     4 : { "name": "BorisBonin",
-           "email": "boris.bonin@limechain.tech"
+     4 : { "name": "JohnCarter",
+           "email": "johncarter7061@gmail.com"
           },
   }
 
@@ -31,13 +31,17 @@ resource "aws_iam_group" "external_developers" {
 resource "aws_iam_user" "external_developers" {
     for_each = var.external_developers_list
     name = each.value["name"]
-    path = "/user/"
 
     tags = {
       Environment = "aws_account",
       Project     = "Universe",
       Email       = each.value["email"]
     }
+}
+
+resource "aws_iam_access_key" "external_developers" {
+    for_each = var.external_developers_list
+    user = each.value["name"]
 }
 
 
@@ -96,6 +100,8 @@ resource "aws_iam_group_policy" "external_developer_policy_mfa" {
       {
         Sid = "BlockMostAccessUnlessSignedInWithMFA"
         NotAction = [
+          "iam:ChangePassword",
+          "iam:CreateLoginProfile",
           "iam:CreateVirtualMFADevice",
           "iam:EnableMFADevice",
           "iam:ListMFADevices",
@@ -130,8 +136,18 @@ resource "aws_iam_group_policy" "external_developer_policy_desribe_eks" {
           "eks:DescribeCluster"
         ]
         Effect   = "Allow"
-        Resource = data.aws_eks_cluster.dev.arn
+        Resource = [
+          data.aws_eks_cluster.dev.arn,
+          data.aws_eks_cluster.prod.arn
+        ]
       },
     ]
   })
+}
+
+
+output "externale_developers_access_keys" {
+  sensitive = false
+  //value = aws_iam_access_key.external_developers["1"]
+  value = [ for i, u  in var.external_developers_list:  { name : aws_iam_access_key.external_developers[i].user , id: aws_iam_access_key.external_developers[i].id, key: aws_iam_access_key.external_developers[i].secret } ]
 }
