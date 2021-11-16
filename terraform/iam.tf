@@ -40,6 +40,7 @@ resource "aws_iam_user" "external_developers" {
 resource "aws_iam_access_key" "external_developers" {
     for_each = var.external_developers_list
     user = each.value["name"]
+    depends_on = [aws_iam_user.external_developers]
 }
 
 
