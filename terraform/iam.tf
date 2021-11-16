@@ -13,6 +13,9 @@ variable external_developers_list {
      3 : { "name": "MehmetGurevin",
            "email": "mehmet.gurevin@octabase.com"
           },
+     4 : { "name": "PaulDonskikh",
+           "email": "donskikhinvest@gmail.com"
+          },
   }
 
 }
