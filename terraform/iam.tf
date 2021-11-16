@@ -10,11 +10,8 @@ variable external_developers_list {
      2 : { "name": "VadimTest",
            "email": "vadim.lun9u@gmail.com"
           },
-     3 : { "name": "ViktorTodorov",
-           "email": "viktor.todorov@limechain.tech"
-          },
-     4 : { "name": "JohnCarter",
-           "email": "johncarter7061@gmail.com"
+     3 : { "name": "MehmetGurevin",
+           "email": "mehmet.gurevin@octabase.com"
           },
   }
 
@@ -24,6 +21,7 @@ variable external_developers_list {
 resource "aws_iam_group" "external_developers" {
   name = "external-developers"
   path = "/users/"
+  depends_on = [aws_iam_user.external_developers]
 }
 
 # Access throuth AWS Programmatic access
