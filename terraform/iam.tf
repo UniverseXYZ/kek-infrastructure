@@ -53,6 +53,7 @@ resource "aws_iam_group_membership" "external_developers" {
 
   users = [ for user in var.external_developers_list: user.name ]
   group = aws_iam_group.external_developers.name
+  depends_on = [aws_iam_user.external_developers]
 }
 
 
@@ -76,6 +77,8 @@ resource "aws_iam_group_policy" "external_developer_policy_mfa" {
         Sid = "AllowIndividualUserToListOnlyTheirOwnMFA"
         Action = [
           "iam:ListMFADevices",
+          "iam:CreateVirtualMFADevice",
+          "iam:EnableMFADevice",
         ]
         Effect   = "Allow"
         Resource = [
