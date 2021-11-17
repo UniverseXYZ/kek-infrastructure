@@ -152,7 +152,7 @@ resource "aws_iam_group_policy" "external_developer_policy_desribe_eks" {
 
 
 output "externale_developers_access_keys" {
-  sensitive = false
+  sensitive = true
   //value = aws_iam_access_key.external_developers["1"]
   value = [ for i, u  in var.external_developers_list:  { name : aws_iam_access_key.external_developers[i].user , id: aws_iam_access_key.external_developers[i].id, key: aws_iam_access_key.external_developers[i].secret } ]
 }

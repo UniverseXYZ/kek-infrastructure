@@ -48,13 +48,13 @@ resource "aws_kms_key" "alpha_db" {
   }
 }
 
-resource "aws_kms_key" "nft_dev_db" {
+resource "aws_kms_key" "dev_nft_db" {
   description             = "RDS nft dev encryption key"
   deletion_window_in_days = 14
   enable_key_rotation     = true
 
   tags = {
-    Name        = "nft-dev-db"
+    Name        = "dev-nft-db"
     Project     = "kekdao"
     Environment = "nft"
   }
@@ -250,5 +250,9 @@ variable "ALPHA_DB_PASSWORD" {
 }
 
 variable "DEV_DB_PASSWORD" {
+  type = string
+}
+
+variable "DEV_NFT_DB_PASSWORD" {
   type = string
 }
