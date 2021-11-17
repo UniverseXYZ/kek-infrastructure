@@ -48,6 +48,18 @@ resource "aws_kms_key" "alpha_db" {
   }
 }
 
+resource "aws_kms_key" "nft_dev_db" {
+  description             = "RDS nft dev encryption key"
+  deletion_window_in_days = 14
+  enable_key_rotation     = true
+
+  tags = {
+    Name        = "nft-dev-db"
+    Project     = "kekdao"
+    Environment = "nft"
+  }
+}
+
 resource "aws_kms_key" "prod_db" {
   description             = "RDS production encryption key"
   deletion_window_in_days = 14
@@ -101,6 +113,49 @@ module "dev_db" {
     Environment = "dev"
   }
 }
+
+module "dev_nft_db" {
+  source  = "terraform-aws-modules/rds/aws"
+  version = "2.20.0"
+
+  identifier        = "dev-nft-universe"
+  engine            = "postgres"
+  engine_version    = "12.7"
+  instance_class    = "db.m4.large"
+  allocated_storage = 10
+  storage_encrypted = true
+  kms_key_id        = aws_kms_key.dev_nft_db.arn
+
+  name     = "kekdao"
+  username = "kekdao"
+  password = var.DEV_NFT_DB_PASSWORD
+  port     = "5432"
+
+  vpc_security_group_ids = [data.aws_eks_cluster.dev.vpc_config[0].cluster_security_group_id]
+
+  maintenance_window = "Mon:03:00-Mon:03:30"
+  backup_window      = "03:30-04:30"
+
+  backup_retention_period = 7
+
+  subnet_ids = data.aws_eks_cluster.dev.vpc_config[0].subnet_ids
+
+  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
+
+  family               = "postgres12"
+  major_engine_version = "12"
+
+  monitoring_interval = "30"
+  monitoring_role_arn = aws_iam_role.enhanced_monitoring.arn
+
+  apply_immediately = false
+
+  tags = {
+    Project     = "kekdao"
+    Environment = "nft"
+  }
+}
+
 
 module "alpha_db" {
   source  = "terraform-aws-modules/rds/aws"
