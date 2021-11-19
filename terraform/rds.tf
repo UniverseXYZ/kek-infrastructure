@@ -36,6 +36,18 @@ resource "aws_kms_key" "dev_db" {
   }
 }
 
+resource "aws_kms_key" "auctions_db" {
+  description             = "RDS auctions encryption key"
+  deletion_window_in_days = 14
+  enable_key_rotation     = true
+
+  tags = {
+    Name        = "auctions-db"
+    Project     = "kekdao"
+    Environment = "auctions"
+  }
+}
+
 resource "aws_kms_key" "alpha_db" {
   description             = "RDS alpha encryption key"
   deletion_window_in_days = 14
@@ -157,6 +169,48 @@ module "dev_nft_db" {
 }
 
 
+module "auctions_db" {
+  source  = "terraform-aws-modules/rds/aws"
+  version = "2.20.0"
+
+  identifier        = "auctions-universe"
+  engine            = "postgres"
+  engine_version    = "12.7"
+  instance_class    = "db.m6g.large"
+  allocated_storage = 80
+  storage_encrypted = true
+  kms_key_id        = aws_kms_key.alpha_db.arn
+
+  name     = "kekdao"
+  username = "kekdao"
+  password = var.AUCTIONS_DB_PASSWORD
+  port     = "5432"
+
+  vpc_security_group_ids = [data.aws_eks_cluster.dev.vpc_config[0].cluster_security_group_id]
+
+  maintenance_window = "Mon:03:00-Mon:03:30"
+  backup_window      = "03:30-04:30"
+
+  backup_retention_period = 7
+
+  subnet_ids = data.aws_eks_cluster.dev.vpc_config[0].subnet_ids
+
+  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
+
+  family               = "postgres12"
+  major_engine_version = "12"
+
+  monitoring_interval = "30"
+  monitoring_role_arn = aws_iam_role.enhanced_monitoring.arn
+
+  apply_immediately = false
+
+  tags = {
+    Project     = "kekdao"
+    Environment = "auctions"
+  }
+}
+
 module "alpha_db" {
   source  = "terraform-aws-modules/rds/aws"
   version = "2.20.0"
@@ -246,6 +300,10 @@ variable "PROD_DB_PASSWORD" {
 }
 
 variable "ALPHA_DB_PASSWORD" {
+  type = string
+}
+
+variable "AUCTIONS_DB_PASSWORD" {
   type = string
 }
 
