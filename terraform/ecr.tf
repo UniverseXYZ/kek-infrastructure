@@ -25,3 +25,17 @@ resource "aws_ecr_repository" "kekbackend" {
     Environment = "production"
   }
 }
+
+resource "aws_ecr_repository" "marketplace-backend" {
+  name                 = "marketplace-backend"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Project     = "kekdao"
+    Environment = "production"
+  }
+}

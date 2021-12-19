@@ -7,11 +7,11 @@ variable external_developers_list {
      1 : { "name": "BorisBonin",
            "email": "boris.bonin@limechain.tech"
           },
-     2 : { "name": "VadimTest",
-           "email": "vadim.lun9u@gmail.com"
+     2 : { "name": "trevor_test",
+          "email": "trevor@universe.xyz"
           },
-     3 : { "name": "MehmetGurevin",
-           "email": "mehmet.gurevin@octabase.com"
+     3 : { "name": "viktortodorov_test",
+           "email": "viktor.todorov@limechain.tech"
           },
      4 : { "name": "PaulDonskikh",
            "email": "donskikhinvest@gmail.com"
