@@ -39,3 +39,31 @@ resource "aws_ecr_repository" "marketplace-backend" {
     Environment = "production"
   }
 }
+
+resource "aws_ecr_repository" "marketplace-indexer" {
+  name                 = "marketplace-indexer"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Project     = "kekdao"
+    Environment = "production"
+  }
+}
+
+resource "aws_ecr_repository" "universe-watchdog" {
+  name                 = "universe-watchdog"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Project     = "kekdao"
+    Environment = "production"
+  }
+}
