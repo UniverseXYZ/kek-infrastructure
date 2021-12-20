@@ -80,6 +80,13 @@ resource "aws_s3_bucket" "universeapp_assets_auctions" {
     }
   }
 
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["https://auctions.dev.universe.xyz","https://auctions-auctionsdevuniversexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    expose_headers  = []
+  }
+
   lifecycle {
     prevent_destroy = false
   }
