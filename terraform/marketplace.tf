@@ -25,6 +25,7 @@ module "marketplace_universe_xyz_frontend" {
   compress    = true
   # Website settings
   website_enabled = true
+  allow_ssl_requests_only = false
   index_document  = "index.html" # absolute path in the S3 bucket
   error_document  = "index.html" # absolute path in the S3 bucket
   custom_error_response = [{
@@ -83,7 +84,7 @@ resource "aws_s3_bucket" "universeapp_assets_marketplace" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["GET", "HEAD"]
-    allowed_origins = ["https://marketplace.dev.universe.xyz","https://marketplace-marketplacedevuniversexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    allowed_origins = ["marketplace.dev.universe.xyz"]
     expose_headers  = []
   }
 
