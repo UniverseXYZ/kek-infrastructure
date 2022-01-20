@@ -85,7 +85,7 @@ module "alpha_universe_xyz_frontend" {
     response_code         = "200"
     response_page_path    = "/index.html"
   }]
-  logging_enabled          = false
+  logging_enabled = false
 
   lambda_function_association = [{
     event_type   = "viewer-request"
@@ -135,7 +135,7 @@ resource "aws_s3_bucket" "universeapp_assets_alpha" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["GET", "HEAD"]
-    allowed_origins = ["https://alpha.universe.xyz","https://alpha-alphauniversexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    allowed_origins = ["https://alpha.universe.xyz", "https://alpha-alphauniversexyz-origin.s3-website-us-east-1.amazonaws.com"]
     expose_headers  = []
   }
 
@@ -162,16 +162,16 @@ resource "aws_s3_bucket_policy" "universeapp_assets_alpha" {
         Sid       = "universeappAssetsAlpha"
         Effect    = "Allow"
         Principal = "*"
-        Action    = ["s3:GetObject","s3:GetObjectVersion"]
+        Action    = ["s3:GetObject", "s3:GetObjectVersion"]
         Resource = [
           aws_s3_bucket.universeapp_assets_alpha.arn,
           "${aws_s3_bucket.universeapp_assets_alpha.arn}/*",
         ]
-#        Condition = {
-#          IpAddress = {
-#            "aws:SourceIp" = "0.0.0.0/0"
-#          }
-#        }
+        #        Condition = {
+        #          IpAddress = {
+        #            "aws:SourceIp" = "0.0.0.0/0"
+        #          }
+        #        }
       },
     ]
   })

@@ -29,3 +29,6 @@ override.tf.json
 # example: *tfplan*
 terraform.tfvars
 plan.out
+
+# Apple DS_Store
+**/.DS_Store

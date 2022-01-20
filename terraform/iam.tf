@@ -1,49 +1,55 @@
 # Define users
 
-variable external_developers_list {
-  type = map
+variable "external_developers_list" {
+  type = map(any)
 
   default = {
-     1 : { "name": "BorisBonin",
-           "email": "boris.bonin@limechain.tech"
-          },
-     2 : { "name": "trevor_test",
-          "email": "trevor@universe.xyz"
-          },
-     3 : { "name": "viktortodorov_test",
-           "email": "viktor.todorov@limechain.tech"
-          },
-     4 : { "name": "PaulDonskikh",
-           "email": "donskikhinvest@gmail.com"
-          },
+    1 : { "name" : "BorisBonin",
+      "email" : "boris.bonin@limechain.tech"
+    },
+    2 : { "name" : "trevor_test",
+      "email" : "trevor@universe.xyz"
+    },
+    3 : { "name" : "viktortodorov_test",
+      "email" : "viktor.todorov@limechain.tech"
+    },
+    4 : { "name" : "PaulDonskikh",
+      "email" : "donskikhinvest@gmail.com"
+    },
+    5 : { "name" : "felixshu",
+      "email" : "felix@plugdefi.io"
+    },
+    6 : { "name" : "kunwang",
+      "email" : "kun@plugdefi.io"
+    },
   }
 
 }
 
 # Create external developer group
 resource "aws_iam_group" "external_developers" {
-  name = "external-developers"
-  path = "/users/"
+  name       = "external-developers"
+  path       = "/users/"
   depends_on = [aws_iam_user.external_developers]
 }
 
 # Access throuth AWS Programmatic access
 
 resource "aws_iam_user" "external_developers" {
-    for_each = var.external_developers_list
-    name = each.value["name"]
+  for_each = var.external_developers_list
+  name     = each.value["name"]
 
-    tags = {
-      Environment = "aws_account",
-      Project     = "Universe",
-      Email       = each.value["email"]
-    }
+  tags = {
+    Environment = "aws_account",
+    Project     = "Universe",
+    Email       = each.value["email"]
+  }
 }
 
 resource "aws_iam_access_key" "external_developers" {
-    for_each = var.external_developers_list
-    user = each.value["name"]
-    depends_on = [aws_iam_user.external_developers]
+  for_each   = var.external_developers_list
+  user       = each.value["name"]
+  depends_on = [aws_iam_user.external_developers]
 }
 
 
@@ -51,8 +57,8 @@ resource "aws_iam_access_key" "external_developers" {
 resource "aws_iam_group_membership" "external_developers" {
   name = "external-developers"
 
-  users = [ for user in var.external_developers_list: user.name ]
-  group = aws_iam_group.external_developers.name
+  users      = [for user in var.external_developers_list : user.name]
+  group      = aws_iam_group.external_developers.name
   depends_on = [aws_iam_user.external_developers]
 }
 
@@ -80,7 +86,7 @@ resource "aws_iam_group_policy" "external_developer_policy_mfa" {
           "iam:CreateVirtualMFADevice",
           "iam:EnableMFADevice",
         ]
-        Effect   = "Allow"
+        Effect = "Allow"
         Resource = [
           "arn:aws:iam::*:mfa/*",
           "arn:aws:iam::*:user/$${aws:username}"
@@ -91,37 +97,17 @@ resource "aws_iam_group_policy" "external_developer_policy_mfa" {
         Action = [
           "iam:DeactivateMFADevice",
         ]
-        Effect   = "Allow"
+        Effect = "Allow"
         Resource = [
           "arn:aws:iam::*:mfa/$${aws:username}",
           "arn:aws:iam::*:user/$${aws:username}"
         ]
         Condition = {
           Bool = {
-            "aws:MultiFactorAuthPresent": "true"
+            "aws:MultiFactorAuthPresent" : "true"
           }
         }
-      },
-      {
-        Sid = "BlockMostAccessUnlessSignedInWithMFA"
-        NotAction = [
-          "iam:ChangePassword",
-          "iam:CreateLoginProfile",
-          "iam:CreateVirtualMFADevice",
-          "iam:EnableMFADevice",
-          "iam:ListMFADevices",
-          "iam:ListUsers",
-          "iam:ListVirtualMFADevices",
-          "iam:ResyncMFADevice"
-        ]
-        Effect   = "Deny"
-        Resource = "*"
-        Condition = {
-          BoolIfExists = {
-            "aws:MultiFactorAuthPresent": "false"
-          }
-        }
-      },
+      }
     ]
   })
 }
@@ -140,10 +126,10 @@ resource "aws_iam_group_policy" "external_developer_policy_desribe_eks" {
         Action = [
           "eks:DescribeCluster"
         ]
-        Effect   = "Allow"
+        Effect = "Allow"
         Resource = [
           data.aws_eks_cluster.dev.arn,
-          data.aws_eks_cluster.prod.arn
+          #data.aws_eks_cluster.prod.arn
         ]
       },
     ]
@@ -154,5 +140,5 @@ resource "aws_iam_group_policy" "external_developer_policy_desribe_eks" {
 output "externale_developers_access_keys" {
   sensitive = true
   //value = aws_iam_access_key.external_developers["1"]
-  value = [ for i, u  in var.external_developers_list:  { name : aws_iam_access_key.external_developers[i].user , id: aws_iam_access_key.external_developers[i].id, key: aws_iam_access_key.external_developers[i].secret } ]
+  value = [for i, u in var.external_developers_list : { name : aws_iam_access_key.external_developers[i].user, id : aws_iam_access_key.external_developers[i].id, key : aws_iam_access_key.external_developers[i].secret }]
 }

@@ -24,17 +24,17 @@ module "marketplace_universe_xyz_frontend" {
   default_ttl = 300
   compress    = true
   # Website settings
-  website_enabled = true
+  website_enabled         = true
   allow_ssl_requests_only = false
-  index_document  = "index.html" # absolute path in the S3 bucket
-  error_document  = "index.html" # absolute path in the S3 bucket
+  index_document          = "index.html" # absolute path in the S3 bucket
+  error_document          = "index.html" # absolute path in the S3 bucket
   custom_error_response = [{
     error_caching_min_ttl = "0"
     error_code            = "404"
     response_code         = "200"
     response_page_path    = "/index.html"
   }]
-  logging_enabled          = false
+  logging_enabled = false
 
   lambda_function_association = [{
     event_type   = "viewer-request"
@@ -111,16 +111,16 @@ resource "aws_s3_bucket_policy" "universeapp_assets_marketplace" {
         Sid       = "universeappAssetsmarketplace"
         Effect    = "Allow"
         Principal = "*"
-        Action    = ["s3:GetObject","s3:GetObjectVersion"]
+        Action    = ["s3:GetObject", "s3:GetObjectVersion"]
         Resource = [
           aws_s3_bucket.universeapp_assets_marketplace.arn,
           "${aws_s3_bucket.universeapp_assets_marketplace.arn}/*",
         ]
-#        Condition = {
-#          IpAddress = {
-#            "aws:SourceIp" = "0.0.0.0/0"
-#          }
-#        }
+        #        Condition = {
+        #          IpAddress = {
+        #            "aws:SourceIp" = "0.0.0.0/0"
+        #          }
+        #        }
       },
     ]
   })

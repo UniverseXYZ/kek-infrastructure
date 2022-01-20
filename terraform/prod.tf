@@ -108,7 +108,7 @@ resource "aws_s3_bucket" "universeapp_assets_prod" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["GET", "HEAD"]
-    allowed_origins = ["https://universe.xyz","https://prod-universexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    allowed_origins = ["https://universe.xyz", "https://prod-universexyz-origin.s3-website-us-east-1.amazonaws.com"]
     expose_headers  = []
   }
 
@@ -137,16 +137,16 @@ resource "aws_s3_bucket_policy" "universeapp_assets_prod" {
         Sid       = "universeappAssetsProd"
         Effect    = "Allow"
         Principal = "*"
-        Action    = ["s3:GetObject","s3:GetObjectVersion"]
+        Action    = ["s3:GetObject", "s3:GetObjectVersion"]
         Resource = [
           aws_s3_bucket.universeapp_assets_prod.arn,
           "${aws_s3_bucket.universeapp_assets_prod.arn}/*",
         ]
-#        Condition = {
-#          IpAddress = {
-#            "aws:SourceIp" = "0.0.0.0/0"
-#          }
-#        }
+        #        Condition = {
+        #          IpAddress = {
+        #            "aws:SourceIp" = "0.0.0.0/0"
+        #          }
+        #        }
       },
     ]
   })
