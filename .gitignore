@@ -32,3 +32,6 @@ plan.out
 
 # Apple DS_Store
 **/.DS_Store
+
+# Database Passwords
+**/database.tfvars
