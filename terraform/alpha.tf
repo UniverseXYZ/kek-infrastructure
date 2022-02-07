@@ -34,7 +34,7 @@ module "alpha_frontend" {
     response_page_path    = "/index.html"
   }]
   logging_enabled = true
-  
+
   lambda_function_association = [{
     event_type   = "viewer-request"
     include_body = false

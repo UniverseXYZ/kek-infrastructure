@@ -27,8 +27,8 @@ resource "aws_docdb_cluster" "universe_dev" {
   port                            = "27017"
   skip_final_snapshot             = true
   tags = {
-      BusinessUse = "Universe Dev"
-      CreationDate = "01/17/2022"
-      Creator = "trevor.latson"
+    BusinessUse  = "Universe Dev"
+    CreationDate = "01/17/2022"
+    Creator      = "trevor.latson"
   }
 }
