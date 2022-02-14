@@ -14,8 +14,9 @@ variable "stage_name" {
 
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_dir  = "lambda_functions/Polymorph-Rarity-Cloud-lambda-function"
+  source_dir  = "lambda_functions/Polymorph-Rarity-Cloud"
   output_path = "Polymorph-Rarity-Cloud-lambda-function.zip"
+  output_file_mode = "0755"
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
@@ -40,9 +41,9 @@ EOF
 
 resource "aws_lambda_function" "polymorph_rarity_dev" {
   filename         = "Polymorph-Rarity-Cloud-lambda-function.zip"
-  function_name    = "PolymorphRarityDev"
+  function_name    = var.dev_lambda_function_name
   role             = aws_iam_role.iam_for_lambda.arn
-  handler          = "main.go"
+  handler          = "main"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
 
   runtime = "go1.x"
@@ -106,7 +107,10 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 
 
 resource "aws_api_gateway_rest_api" "polymorph_rarity_dev" {
-  name = "polymorph_rarity_dev"
+  name = "RarityProxy"
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
 }
 
 resource "aws_api_gateway_resource" "polymorph_rarity_dev" {
@@ -122,6 +126,16 @@ resource "aws_api_gateway_method" "polymorph_rarity_dev" {
   rest_api_id   = aws_api_gateway_rest_api.polymorph_rarity_dev.id
 }
 
+resource "aws_api_gateway_method_response" "polymorph_rarity_dev" {
+  rest_api_id = aws_api_gateway_rest_api.polymorph_rarity_dev.id
+  resource_id = aws_api_gateway_resource.polymorph_rarity_dev.id
+  http_method = aws_api_gateway_method.polymorph_rarity_dev.http_method
+  status_code = "200"
+  response_models = {
+    "application/json" = "Empty"
+  }
+}
+
 resource "aws_api_gateway_integration" "polymorph_rarity_dev" {
   http_method             = aws_api_gateway_method.polymorph_rarity_dev.http_method
   resource_id             = aws_api_gateway_resource.polymorph_rarity_dev.id
@@ -129,6 +143,17 @@ resource "aws_api_gateway_integration" "polymorph_rarity_dev" {
   integration_http_method = "ANY"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.polymorph_rarity_dev.invoke_arn
+}
+
+resource "aws_api_gateway_integration_response" "polymorph_rarity_dev" {
+   rest_api_id = aws_api_gateway_rest_api.polymorph_rarity_dev.id
+   resource_id = aws_api_gateway_resource.polymorph_rarity_dev.id
+   http_method = aws_api_gateway_method.polymorph_rarity_dev.http_method
+   status_code = aws_api_gateway_method_response.polymorph_rarity_dev.status_code
+
+   response_templates = {
+       "application/json" = "Empty"
+   } 
 }
 
 resource "aws_api_gateway_deployment" "polymorph_rarity_dev" {
@@ -157,7 +182,7 @@ resource "aws_api_gateway_deployment" "polymorph_rarity_dev" {
 resource "aws_api_gateway_stage" "polymorph_rarity_dev" {
   deployment_id = aws_api_gateway_deployment.polymorph_rarity_dev.id
   rest_api_id   = aws_api_gateway_rest_api.polymorph_rarity_dev.id
-  stage_name    = "rarity-lambda-proxy"
+  stage_name    = "dev"
   depends_on    = [aws_cloudwatch_log_group.polymorph_rarity_dev_stage]
 }
 

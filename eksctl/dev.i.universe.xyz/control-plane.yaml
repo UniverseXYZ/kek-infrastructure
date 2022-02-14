@@ -79,25 +79,75 @@ iam:
 gitops:
   flux:
     gitProvider: github
-    owner: kekDAO
-    repository: kek-infrastructure-eks-base
-    personal: false
-    branch: main
-    namespace: "flux-system"
-    path: "clusters/dev.i.universe.xyz"
+    flags:
+      owner: "kekDAO"
+      repository: "kek-infrastructure-eks-base"
+      personal: "false"
+      branch: "main"
+      namespace: "flux-system"
+      path: "clusters/dev.i.universe.xyz"
 
 managedNodeGroups:
-  - name: dev-i-universe-xyz-app-1a-v1
+  # - name: dev-i-universe-xyz-app-1a-v1
+  #   instanceType: m5a.xlarge
+  #   availabilityZones: ["us-east-1a"]
+  #   minSize: 1
+  #   maxSize: 2
+  #   privateNetworking: true
+  #   ebsOptimized: true
+  #   volumeEncrypted: true
+  #   volumeSize: 64
+  #   ssh:
+  #     allow: false
+  #   iam:
+  #     withAddonPolicies:
+  #       autoScaler: true
+  #       externalDNS: true
+  #       certManager: true
+  #       cloudWatch: true
+  #       ebs: true
+  #   labels:
+  #     digitalmob.ro/role: app
+  #     digitalmob.ro/instance-type: general-purpose
+  #     digitalmob.ro/pricing-tier: on-demand
+  #     digitalmob.ro/workload-type: mixed
+  # - name: dev-i-universe-xyz-app-1b-v1
+  #   instanceType: m5a.xlarge
+  #   availabilityZones: ["us-east-1b"]
+  #   minSize: 1
+  #   maxSize: 2
+  #   privateNetworking: true
+  #   ebsOptimized: true
+  #   volumeEncrypted: true
+  #   volumeSize: 64
+  #   ssh:
+  #     allow: false
+  #   iam:
+  #     withAddonPolicies:
+  #       autoScaler: true
+  #       externalDNS: true
+  #       certManager: true
+  #       cloudWatch: true
+  #       ebs: true
+  #   labels:
+  #     digitalmob.ro/role: app
+  #     digitalmob.ro/instance-type: general-purpose
+  #     digitalmob.ro/pricing-tier: on-demand
+  #     digitalmob.ro/workload-type: mixed
+  - name: dev-i-universe-xyz-app-1a-v2
     instanceType: m5a.xlarge
     availabilityZones: ["us-east-1a"]
-    minSize: 1
-    maxSize: 2
+    minSize: 2
+    maxSize: 3
+    desiredCapacity: 2
     privateNetworking: true
     ebsOptimized: true
     volumeEncrypted: true
     volumeSize: 64
     ssh:
-      allow: false
+      allow: true
+      publicKeyName: dev-eks-jump-host
+      enableSsm: true
     iam:
       withAddonPolicies:
         autoScaler: true
@@ -106,21 +156,24 @@ managedNodeGroups:
         cloudWatch: true
         ebs: true
     labels:
-      digitalmob.ro/role: app
-      digitalmob.ro/instance-type: general-purpose
-      digitalmob.ro/pricing-tier: on-demand
-      digitalmob.ro/workload-type: mixed
-  - name: dev-i-universe-xyz-app-1b-v1
+      universe.xyz/role: app
+      universe.xyz/instance-type: general-purpose
+      universe.xyz/pricing-tier: on-demand
+      universe.xyz/workload-type: mixed
+  - name: dev-i-universe-xyz-app-1b-v2
     instanceType: m5a.xlarge
     availabilityZones: ["us-east-1b"]
-    minSize: 1
-    maxSize: 2
+    minSize: 2
+    maxSize: 3
+    desiredCapacity: 2
     privateNetworking: true
     ebsOptimized: true
     volumeEncrypted: true
     volumeSize: 64
     ssh:
-      allow: false
+      allow: true
+      publicKeyName: dev-eks-jump-host
+      enableSsm: true
     iam:
       withAddonPolicies:
         autoScaler: true
@@ -129,7 +182,7 @@ managedNodeGroups:
         cloudWatch: true
         ebs: true
     labels:
-      digitalmob.ro/role: app
-      digitalmob.ro/instance-type: general-purpose
-      digitalmob.ro/pricing-tier: on-demand
-      digitalmob.ro/workload-type: mixed
+      universe.xyz/role: app
+      universe.xyz/instance-type: general-purpose
+      universe.xyz/pricing-tier: on-demand
+      universe.xyz/workload-type: mixed
