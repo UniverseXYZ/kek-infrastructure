@@ -165,3 +165,32 @@ resource "aws_ecr_repository" "universe-datascraper-transfer-producer" {
     Environment = "production"
   }
 }
+
+resource "aws_ecr_repository" "universe-datascraper-mediafiles-consumer" {
+  name                 = "universe-datascraper-mediafiles-consumer"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Project     = "kekdao"
+    Environment = "production"
+  }
+}
+
+resource "aws_ecr_repository" "universe-datascraper-mediafiles-producer" {
+  name                 = "universe-datascraper-mediafiles-producer"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Project     = "kekdao"
+    Environment = "production"
+  }
+}
+
