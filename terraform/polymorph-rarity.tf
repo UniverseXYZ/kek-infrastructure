@@ -13,9 +13,9 @@ variable "stage_name" {
 }
 
 data "archive_file" "lambda_zip" {
-  type        = "zip"
-  source_dir  = "lambda_functions/Polymorph-Rarity-Cloud"
-  output_path = "Polymorph-Rarity-Cloud-lambda-function.zip"
+  type             = "zip"
+  source_dir       = "lambda_functions/Polymorph-Rarity-Cloud"
+  output_path      = "Polymorph-Rarity-Cloud-lambda-function.zip"
   output_file_mode = "0755"
 }
 
@@ -146,14 +146,14 @@ resource "aws_api_gateway_integration" "polymorph_rarity_dev" {
 }
 
 resource "aws_api_gateway_integration_response" "polymorph_rarity_dev" {
-   rest_api_id = aws_api_gateway_rest_api.polymorph_rarity_dev.id
-   resource_id = aws_api_gateway_resource.polymorph_rarity_dev.id
-   http_method = aws_api_gateway_method.polymorph_rarity_dev.http_method
-   status_code = aws_api_gateway_method_response.polymorph_rarity_dev.status_code
+  rest_api_id = aws_api_gateway_rest_api.polymorph_rarity_dev.id
+  resource_id = aws_api_gateway_resource.polymorph_rarity_dev.id
+  http_method = aws_api_gateway_method.polymorph_rarity_dev.http_method
+  status_code = aws_api_gateway_method_response.polymorph_rarity_dev.status_code
 
-   response_templates = {
-       "application/json" = "Empty"
-   } 
+  response_templates = {
+    "application/json" = "Empty"
+  }
 }
 
 resource "aws_api_gateway_deployment" "polymorph_rarity_dev" {

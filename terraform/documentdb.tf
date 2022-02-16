@@ -12,6 +12,13 @@ resource "aws_docdb_cluster_instance" "universe_dev_cluster_instance2" {
   promotion_tier     = 1
 }
 
+resource "aws_docdb_cluster_instance" "universe_dev_cluster_master" {
+  identifier         = "universe-dev-master"
+  cluster_identifier = aws_docdb_cluster.universe_dev.id
+  instance_class     = "db.r6g.large"
+  promotion_tier     = 0
+}
+
 resource "aws_docdb_cluster" "universe_dev" {
   cluster_identifier              = "universe-dev"
   apply_immediately               = true

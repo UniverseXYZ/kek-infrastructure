@@ -162,5 +162,5 @@ output "dev_datascraper_iam_api_key_id" {
 
 output "dev_datascraper_iam_api_secret" {
   sensitive = true
-  value = aws_iam_access_key.dev_datascraper_iam_user.secret
+  value     = aws_iam_access_key.dev_datascraper_iam_user.secret
 }
