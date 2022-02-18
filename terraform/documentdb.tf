@@ -1,3 +1,5 @@
+#####ALPHA#####
+
 resource "aws_docdb_cluster_instance" "universe_dev_cluster_instance1" {
   identifier         = "universe-dev"
   cluster_identifier = aws_docdb_cluster.universe_dev.id
@@ -36,6 +38,44 @@ resource "aws_docdb_cluster" "universe_dev" {
   tags = {
     BusinessUse  = "Universe Dev"
     CreationDate = "01/17/2022"
+    Creator      = "trevor.latson"
+  }
+}
+
+#####DEV#####
+
+resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_instance1" {
+  identifier         = "universe-rinkeby"
+  cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
+  instance_class     = "db.t4g.medium"
+  promotion_tier     = 1
+}
+
+resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_instance2" {
+  identifier         = "universe-rinkeby2"
+  cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
+  instance_class     = "db.t4g.medium"
+  promotion_tier     = 1
+}
+
+resource "aws_docdb_cluster" "universe_rinkeby" {
+  cluster_identifier              = "universe-rinkeby"
+  apply_immediately               = true
+  engine                          = "docdb"
+  engine_version                  = "4.0.0"
+  master_username                 = "kekdao"
+  master_password                 = var.DEV_DB_PASSWORD
+  db_subnet_group_name            = "dev-universe-20210505160751512000000001"
+  vpc_security_group_ids          = [data.aws_eks_cluster.dev.vpc_config[0].cluster_security_group_id]
+  availability_zones              = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  db_cluster_parameter_group_name = "universe-dev-no-ssl"
+  kms_key_id                      = "arn:aws:kms:us-east-1:076129510628:key/aa38a691-e008-49a8-8cc2-8241a962a7c9" #aws-managed
+  storage_encrypted               = true
+  port                            = "27017"
+  skip_final_snapshot             = true
+  tags = {
+    BusinessUse  = "Universe Rinkeby"
+    CreationDate = "02/16/2022"
     Creator      = "trevor.latson"
   }
 }
