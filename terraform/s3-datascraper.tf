@@ -33,22 +33,22 @@ resource "aws_s3_bucket" "universe_dev_datascraper_video" {
 data "aws_iam_policy_document" "universe_dev_datascraper_video" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_dev_datascraper_video.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_dev_datascraper_video.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
+}
+
+resource "aws_s3_bucket_policy" "universe_dev_datascraper_video" {
+  bucket = aws_s3_bucket.universe_dev_datascraper_video.id
+  policy = data.aws_iam_policy_document.universe_dev_datascraper_video.json
 }
 
 resource "aws_s3_bucket" "universe_dev_datascraper_images" {
@@ -84,22 +84,22 @@ resource "aws_s3_bucket" "universe_dev_datascraper_images" {
 data "aws_iam_policy_document" "universe_dev_datascraper_images" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_dev_datascraper_images.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_dev_datascraper_images.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
+}
+
+resource "aws_s3_bucket_policy" "universe_dev_datascraper_images" {
+  bucket = aws_s3_bucket.universe_dev_datascraper_images.id
+  policy = data.aws_iam_policy_document.universe_dev_datascraper_images.json
 }
 
 resource "aws_s3_bucket" "universe_dev_datascraper_audio" {
@@ -135,23 +135,24 @@ resource "aws_s3_bucket" "universe_dev_datascraper_audio" {
 data "aws_iam_policy_document" "universe_dev_datascraper_audio" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_dev_datascraper_audio.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_dev_datascraper_audio.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
 }
+
+resource "aws_s3_bucket_policy" "universe_dev_datascraper_audio" {
+  bucket = aws_s3_bucket.universe_dev_datascraper_audio.id
+  policy = data.aws_iam_policy_document.universe_dev_datascraper_audio.json
+}
+
 
 resource "aws_s3_bucket" "universe_dev_datascraper_models" {
   bucket = "universe-dev-datascraper-models"
@@ -186,22 +187,22 @@ resource "aws_s3_bucket" "universe_dev_datascraper_models" {
 data "aws_iam_policy_document" "universe_dev_datascraper_models" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_dev_datascraper_models.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_dev_datascraper_models.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
+}
+
+resource "aws_s3_bucket_policy" "universe_dev_datascraper_models" {
+  bucket = aws_s3_bucket.universe_dev_datascraper_models.id
+  policy = data.aws_iam_policy_document.universe_dev_datascraper_models.json
 }
 
 resource "aws_s3_bucket" "universe_dev_datascraper_misc" {
@@ -237,22 +238,22 @@ resource "aws_s3_bucket" "universe_dev_datascraper_misc" {
 data "aws_iam_policy_document" "universe_dev_datascraper_misc" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_dev_datascraper_misc.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_dev_datascraper_misc.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
+}
+
+resource "aws_s3_bucket_policy" "universe_dev_datascraper_misc" {
+  bucket = aws_s3_bucket.universe_dev_datascraper_misc.id
+  policy = data.aws_iam_policy_document.universe_dev_datascraper_misc.json
 }
 
 resource "aws_iam_user" "dev_datascraper_iam_user" {
@@ -342,22 +343,22 @@ resource "aws_s3_bucket" "universe_rinkeby_datascraper_video" {
 data "aws_iam_policy_document" "universe_rinkeby_datascraper_video" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_rinkeby_datascraper_video.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_rinkeby_datascraper_video.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
+}
+
+resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_video" {
+  bucket = aws_s3_bucket.universe_rinkeby_datascraper_video.id
+  policy = data.aws_iam_policy_document.universe_rinkeby_datascraper_video.json
 }
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_images" {
@@ -393,22 +394,22 @@ resource "aws_s3_bucket" "universe_rinkeby_datascraper_images" {
 data "aws_iam_policy_document" "universe_rinkeby_datascraper_images" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_rinkeby_datascraper_images.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_rinkeby_datascraper_images.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
+}
+
+resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_images" {
+  bucket = aws_s3_bucket.universe_rinkeby_datascraper_images.id
+  policy = data.aws_iam_policy_document.universe_rinkeby_datascraper_images.json
 }
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_audio" {
@@ -444,22 +445,22 @@ resource "aws_s3_bucket" "universe_rinkeby_datascraper_audio" {
 data "aws_iam_policy_document" "universe_rinkeby_datascraper_audio" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_rinkeby_datascraper_audio.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_rinkeby_datascraper_audio.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
+}
+
+resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_audio" {
+  bucket = aws_s3_bucket.universe_rinkeby_datascraper_audio.id
+  policy = data.aws_iam_policy_document.universe_rinkeby_datascraper_audio.json
 }
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_models" {
@@ -495,22 +496,22 @@ resource "aws_s3_bucket" "universe_rinkeby_datascraper_models" {
 data "aws_iam_policy_document" "universe_rinkeby_datascraper_models" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_rinkeby_datascraper_models.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_rinkeby_datascraper_models.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
+}
+
+resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_models" {
+  bucket = aws_s3_bucket.universe_rinkeby_datascraper_models.id
+  policy = data.aws_iam_policy_document.universe_rinkeby_datascraper_models.json
 }
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_misc" {
@@ -546,22 +547,22 @@ resource "aws_s3_bucket" "universe_rinkeby_datascraper_misc" {
 data "aws_iam_policy_document" "universe_rinkeby_datascraper_misc" {
   statement {
     actions = [
-      "s3:ListBucket"
-    ]
-    resources = [
-      aws_s3_bucket.universe_rinkeby_datascraper_misc.arn
-    ]
-    effect = "Allow"
-  }
-  statement {
-    actions = [
-      "s3:*",
+      "s3:GetObject",
     ]
     resources = [
       format("%s/*", aws_s3_bucket.universe_rinkeby_datascraper_misc.arn)
     ]
     effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
   }
+}
+
+resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_misc" {
+  bucket = aws_s3_bucket.universe_rinkeby_datascraper_misc.id
+  policy = data.aws_iam_policy_document.universe_rinkeby_datascraper_misc.json
 }
 
 resource "aws_iam_user" "rinkeby_datascraper_iam_user" {
