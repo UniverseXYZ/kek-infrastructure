@@ -8,6 +8,7 @@ resource "aws_sqs_queue" "datascraper_block" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.datascraper_block_dlq]
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.datascraper_block_dlq.arn
@@ -23,6 +24,7 @@ resource "aws_sqs_queue" "datascraper_block_dlq" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
 }
 
 resource "aws_sqs_queue" "datascraper_media" {
@@ -33,6 +35,7 @@ resource "aws_sqs_queue" "datascraper_media" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.datascraper_media_dlq]
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.datascraper_media_dlq.arn
@@ -48,6 +51,7 @@ resource "aws_sqs_queue" "datascraper_media_dlq" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
 }
 
 resource "aws_sqs_queue" "datascraper_token" {
@@ -58,6 +62,7 @@ resource "aws_sqs_queue" "datascraper_token" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.datascraper_token_dlq]
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.datascraper_token_dlq.arn
@@ -73,6 +78,7 @@ resource "aws_sqs_queue" "datascraper_token_dlq" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
 }
 
 resource "aws_sqs_queue" "datascraper_transfer" {
@@ -83,6 +89,7 @@ resource "aws_sqs_queue" "datascraper_transfer" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.datascraper_transfer_dlq]
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.datascraper_transfer_dlq.arn
@@ -98,6 +105,7 @@ resource "aws_sqs_queue" "datascraper_transfer_dlq" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
 }
 
 #####DEV#####
@@ -110,6 +118,7 @@ resource "aws_sqs_queue" "rinkeby_datascraper_block" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.rinkeby_datascraper_block_dlq]
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.rinkeby_datascraper_block_dlq.arn
@@ -125,6 +134,7 @@ resource "aws_sqs_queue" "rinkeby_datascraper_block_dlq" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
 }
 
 resource "aws_sqs_queue" "rinkeby_datascraper_media" {
@@ -135,6 +145,7 @@ resource "aws_sqs_queue" "rinkeby_datascraper_media" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.rinkeby_datascraper_media_dlq]
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.rinkeby_datascraper_media_dlq.arn
@@ -150,6 +161,7 @@ resource "aws_sqs_queue" "rinkeby_datascraper_media_dlq" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
 }
 
 resource "aws_sqs_queue" "rinkeby_datascraper_token" {
@@ -160,6 +172,7 @@ resource "aws_sqs_queue" "rinkeby_datascraper_token" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.rinkeby_datascraper_token_dlq]
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.rinkeby_datascraper_token_dlq.arn
@@ -175,6 +188,7 @@ resource "aws_sqs_queue" "rinkeby_datascraper_token_dlq" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
 }
 
 resource "aws_sqs_queue" "rinkeby_datascraper_transfer" {
@@ -185,6 +199,7 @@ resource "aws_sqs_queue" "rinkeby_datascraper_transfer" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.rinkeby_datascraper_transfer_dlq]
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.rinkeby_datascraper_transfer_dlq.arn
@@ -200,4 +215,5 @@ resource "aws_sqs_queue" "rinkeby_datascraper_transfer_dlq" {
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
   visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
 }

@@ -22,6 +22,9 @@ variable "external_developers_list" {
     6 : { "name" : "kunwang",
       "email" : "kun@plugdefi.io"
     },
+    7 : { "name" : "george",
+      "email" : "george@limechain.tech"
+    },
   }
 
 }
