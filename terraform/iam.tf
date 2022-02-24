@@ -25,6 +25,9 @@ variable "external_developers_list" {
     7 : { "name" : "george",
       "email" : "george@limechain.tech"
     },
+    8 : { "name" : "sterios",
+      "email" : "sterios.taskudis@limechain.tech"
+    },
   }
 
 }

@@ -207,3 +207,17 @@ resource "aws_ecr_repository" "universe-datascraper-api" {
     Environment = "production"
   }
 }
+
+resource "aws_ecr_repository" "universe-datascraper-contract-reader" {
+  name                 = "universe-datascraper-contract-reader"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Project     = "kekdao"
+    Environment = "production"
+  }
+}
