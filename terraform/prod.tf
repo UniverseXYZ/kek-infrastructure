@@ -43,6 +43,7 @@ module "prod_frontend" {
     "CI", # Côte d'Ivoire
     "LR", # Liberia
     "KP", # North Korea
+    "RU", # Russia
     "SD", # Sudan
     "SY", # Syria
     "ZW", # Zimbabwe
@@ -87,6 +88,20 @@ module "universe_xyz_frontend" {
     response_page_path    = "/index.html"
   }]
   logging_enabled          = false
+  geo_restriction_locations = [
+    "BY", # Belarus
+    "CU", # Cuba
+    "IR", # Iran
+    "IQ", # Iraq
+    "CI", # Côte d'Ivoire
+    "LR", # Liberia
+    "KP", # North Korea
+    "RU", # Russia
+    "SD", # Sudan
+    "SY", # Syria
+    "ZW", # Zimbabwe
+  ]
+  geo_restriction_type     = "blacklist"
   minimum_protocol_version = "TLSv1.2_2019"
   depends_on               = [module.universe_xyz_acm_certificate]
 }
