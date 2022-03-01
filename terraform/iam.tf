@@ -116,6 +116,16 @@ resource "aws_iam_group_policy" "external_developer_policy_mfa" {
             "aws:MultiFactorAuthPresent" : "true"
           }
         }
+      },
+            {
+        Sid = "AllowGetSQSQueusSize"
+        Action = [
+          "sqs:GetQueueAttributes",
+        ]
+        Effect = "Allow"
+        Resource = [
+          "*"
+        ]
       }
     ]
   })
