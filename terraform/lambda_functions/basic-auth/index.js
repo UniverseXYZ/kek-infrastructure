@@ -3,8 +3,8 @@ exports.handler = async (event, context, callback) => {
     const request = event.Records[0].cf.request;
     const headers = request.headers;
 
-    const user = 'mobster';
-    const pass = 'digitalMob';
+    const user = 'citizen';
+    const pass = 'OfTheUniverse';
 
     const basicAuthentication = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
 
