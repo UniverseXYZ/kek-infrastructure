@@ -87,7 +87,7 @@ module "universe_xyz_frontend" {
     response_code         = "200"
     response_page_path    = "/index.html"
   }]
-  logging_enabled          = false
+  logging_enabled = false
   geo_restriction_locations = [
     "BY", # Belarus
     "CU", # Cuba

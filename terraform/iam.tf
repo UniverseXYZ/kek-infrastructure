@@ -117,7 +117,7 @@ resource "aws_iam_group_policy" "external_developer_policy_mfa" {
           }
         }
       },
-            {
+      {
         Sid = "AllowGetSQSQueusSize"
         Action = [
           "sqs:GetQueueAttributes",

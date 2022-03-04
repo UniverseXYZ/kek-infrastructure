@@ -108,6 +108,33 @@ resource "aws_sqs_queue" "datascraper_transfer_dlq" {
   message_retention_seconds   = 1209600
 }
 
+resource "aws_sqs_queue" "datascraper_transfer_monitor" {
+  name                        = "datascraper-transfer-monitor.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.datascraper_transfer_monitor_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.datascraper_transfer_monitor_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "datascraper_transfer_monitor_dlq" {
+  name                        = "datascraper-transfer-monitor-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
 #####DEV#####
 
 resource "aws_sqs_queue" "rinkeby_datascraper_block" {
@@ -209,6 +236,33 @@ resource "aws_sqs_queue" "rinkeby_datascraper_transfer" {
 
 resource "aws_sqs_queue" "rinkeby_datascraper_transfer_dlq" {
   name                        = "rinkeby-datascraper-transfer-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "rinkeby_datascraper_transfer_monitor" {
+  name                        = "rinkeby-datascraper-transfer-monitor.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.rinkeby_datascraper_transfer_monitor_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.rinkeby_datascraper_transfer_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "rinkeby_datascraper_transfer_monitor_dlq" {
+  name                        = "rinkeby-datascraper-transfer-monitor-dlq.fifo"
   fifo_queue                  = true
   content_based_deduplication = false
   sqs_managed_sse_enabled     = true
