@@ -1,19 +1,5 @@
 #####ALPHA#####
 
-resource "aws_docdb_cluster_instance" "universe_dev_cluster_instance1" {
-  identifier         = "universe-dev"
-  cluster_identifier = aws_docdb_cluster.universe_dev.id
-  instance_class     = "db.t4g.medium"
-  promotion_tier     = 1
-}
-
-resource "aws_docdb_cluster_instance" "universe_dev_cluster_instance2" {
-  identifier         = "universe-dev2"
-  cluster_identifier = aws_docdb_cluster.universe_dev.id
-  instance_class     = "db.t4g.medium"
-  promotion_tier     = 1
-}
-
 resource "aws_docdb_cluster_instance" "universe_dev_cluster_master" {
   identifier         = "universe-dev-master"
   cluster_identifier = aws_docdb_cluster.universe_dev.id
