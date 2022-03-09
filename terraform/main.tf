@@ -1,24 +1,15 @@
 terraform {
-  backend "s3" {
-    bucket = "tfstate-kekdao"
-    key    = "main/main.tfstate"
-    region = "us-east-1"
+  cloud {
+    organization = "UniverseXYZ"
 
-    dynamodb_table = "tfstate-lock-kekdao"
-    encrypt        = true
-  }
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.70.0"
+    workspaces {
+      name = "kek-infrastructure"
     }
   }
-  required_version = "= 1.1.4"
 }
 
 provider "aws" {
-  region  = "us-east-1"
-  profile = "kek"
+  region = "us-east-1"
 }
 
 resource "aws_s3_bucket" "tfstate" {
