@@ -88,7 +88,7 @@ resource "aws_sqs_queue" "datascraper_transfer" {
   sqs_managed_sse_enabled     = true
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
-  visibility_timeout_seconds  = 180
+  visibility_timeout_seconds  = 600
   message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.datascraper_transfer_dlq]
   redrive_policy = jsonencode({
