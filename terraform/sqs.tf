@@ -27,6 +27,33 @@ resource "aws_sqs_queue" "datascraper_block_dlq" {
   message_retention_seconds   = 1209600
 }
 
+resource "aws_sqs_queue" "datascraper_block_backwards" {
+  name                        = "datascraper-block-backwards.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.datascraper_block_backwards_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.datascraper_block_backwards_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "datascraper_block_backwards_dlq" {
+  name                        = "datascraper-block-backwards-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
 resource "aws_sqs_queue" "datascraper_media" {
   name                        = "datascraper-media.fifo"
   fifo_queue                  = true
@@ -155,6 +182,33 @@ resource "aws_sqs_queue" "rinkeby_datascraper_block" {
 
 resource "aws_sqs_queue" "rinkeby_datascraper_block_dlq" {
   name                        = "rinkeby-datascraper-block-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "rinkeby_datascraper_block_backwards" {
+  name                        = "rinkeby-datascraper-block-backwards.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.rinkeby_datascraper_block_backwards_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.rinkeby_datascraper_block_backwards_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "rinkeby_datascraper_block_backwards_dlq" {
+  name                        = "rinkeby-datascraper-block-backwards-dlq.fifo"
   fifo_queue                  = true
   content_based_deduplication = false
   sqs_managed_sse_enabled     = true
