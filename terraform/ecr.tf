@@ -251,7 +251,7 @@ resource "aws_ecr_repository" "universe-datascraper-owners-producer" {
 }
 
 resource "aws_ecr_repository" "universe-datascraper-monitor-consumer" {
-  name                 = "universe-datascraper-owners-producer"
+  name                 = "universe-datascraper-monitor-consumer"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
