@@ -235,3 +235,17 @@ resource "aws_ecr_repository" "universe-datascraper-owners-consumer" {
     Environment = "production"
   }
 }
+
+resource "aws_ecr_repository" "universe-datascraper-owners-producer" {
+  name                 = "universe-datascraper-owners-producer"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Project     = "kekdao"
+    Environment = "production"
+  }
+}
