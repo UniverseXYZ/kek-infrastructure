@@ -79,20 +79,21 @@ iam:
 gitops:
   flux:
     gitProvider: github
-    owner: kekDAO
-    repository: kek-infrastructure-eks-base
-    personal: false
-    branch: main
-    namespace: "flux-system"
-    path: "clusters/prod.i.universe.xyz"
+    flags:
+      owner: "kekDAO"
+      repository: "kek-infrastructure-eks-base"
+      personal: "false"
+      branch: "main"
+      namespace: "flux-system"
+      path: "clusters/prod.i.universe.xyz"
 
 managedNodeGroups:
   - name: prod-i-universe-xyz-app-1a-v1
     instanceType: m5a.xlarge
     availabilityZones: ["us-east-1a"]
-    minSize: 2
+    minSize: 0
     maxSize: 4
-    desiredCapacity: 2
+    desiredCapacity: 0
     privateNetworking: true
     ebsOptimized: true
     volumeEncrypted: true
@@ -114,9 +115,9 @@ managedNodeGroups:
   - name: prod-i-universe-xyz-app-1b-v1
     instanceType: m5a.xlarge
     availabilityZones: ["us-east-1b"]
-    minSize: 2
+    minSize: 0
     maxSize: 4
-    desiredCapacity: 2
+    desiredCapacity: 0
     privateNetworking: true
     ebsOptimized: true
     volumeEncrypted: true
@@ -135,3 +136,55 @@ managedNodeGroups:
       digitalmob.ro/instance-type: general-purpose
       digitalmob.ro/pricing-tier: on-demand
       digitalmob.ro/workload-type: mixed
+  - name: prod-i-universe-xyz-app-1a-v2
+    instanceType: m5a.xlarge
+    availabilityZones: ["us-east-1a"]
+    minSize: 2
+    maxSize: 5
+    desiredCapacity: 2
+    privateNetworking: true
+    ebsOptimized: true
+    volumeEncrypted: true
+    volumeSize: 64
+    ssh:
+      allow: true
+      publicKeyName: prod-eks-jump-host
+      enableSsm: true
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+        externalDNS: true
+        certManager: true
+        cloudWatch: true
+        ebs: true
+    labels:
+      universe.xyz/role: app
+      universe.xyz/instance-type: general-purpose
+      universe.xyz/pricing-tier: on-demand
+      universe.xyz/workload-type: mixed
+  - name: prod-i-universe-xyz-app-1b-v2
+    instanceType: m5a.xlarge
+    availabilityZones: ["us-east-1b"]
+    minSize: 2
+    maxSize: 5
+    desiredCapacity: 2
+    privateNetworking: true
+    ebsOptimized: true
+    volumeEncrypted: true
+    volumeSize: 64
+    ssh:
+      allow: true
+      publicKeyName: prod-eks-jump-host
+      enableSsm: true
+    iam:
+      withAddonPolicies:
+        autoScaler: true
+        externalDNS: true
+        certManager: true
+        cloudWatch: true
+        ebs: true
+    labels:
+      universe.xyz/role: app
+      universe.xyz/instance-type: general-purpose
+      universe.xyz/pricing-tier: on-demand
+      universe.xyz/workload-type: mixed
