@@ -142,7 +142,7 @@ resource "aws_sqs_queue" "datascraper_transfer_monitor" {
   sqs_managed_sse_enabled     = true
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
-  visibility_timeout_seconds  = 180
+  visibility_timeout_seconds  = 600
   message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.datascraper_transfer_monitor_dlq]
   redrive_policy = jsonencode({
@@ -169,7 +169,7 @@ resource "aws_sqs_queue" "datascraper_owner" {
   sqs_managed_sse_enabled     = true
   deduplication_scope         = "messageGroup"
   fifo_throughput_limit       = "perMessageGroupId"
-  visibility_timeout_seconds  = 180
+  visibility_timeout_seconds  = 600
   message_retention_seconds   = 1209600
   depends_on                  = [aws_sqs_queue.datascraper_owner_dlq]
   redrive_policy = jsonencode({
