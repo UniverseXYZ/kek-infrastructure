@@ -10,7 +10,7 @@ module "dev_acm_certificate" {
 
 module "dev_frontend" {
   source             = "cloudposse/cloudfront-s3-cdn/aws"
-  version            = "0.40.0"
+  version            = "0.82.3"
   name               = "dev.dao.universe.xyz"
   encryption_enabled = true
   environment        = "dev"
@@ -25,6 +25,11 @@ module "dev_frontend" {
   compress    = true
   # Website settings
   website_enabled = true
+  s3_website_password_enabled = true
+  allow_ssl_requests_only = false
+  cors_allowed_methods    = ["GET", "HEAD"]
+  cors_allowed_origins    = ["dev.dao.universe.xyz"]
+  cors_allowed_headers    = ["*"]
   index_document  = "index.html" # absolute path in the S3 bucket
   error_document  = "index.html" # absolute path in the S3 bucket
   custom_error_response = [{
@@ -34,37 +39,23 @@ module "dev_frontend" {
     response_page_path    = "/index.html"
   }]
   logging_enabled = false
-
-  lambda_function_association = [{
-    event_type   = "viewer-request"
-    include_body = false
-    lambda_arn   = module.dev_frontend_basic_auth.arn
-  }]
+  lambda_function_association = module.lambda_at_edge.lambda_function_association
+  geo_restriction_locations = [
+    "BY", # Belarus
+    "CU", # Cuba
+    "IR", # Iran
+    "IQ", # Iraq
+    "CI", # Côte d'Ivoire
+    "LR", # Liberia
+    "KP", # North Korea
+    "SD", # Sudan
+    "SY", # Syria
+    "RU", # Russia
+    "ZW", # Zimbabwe
+  ]
+  geo_restriction_type     = "blacklist"
   minimum_protocol_version = "TLSv1.2_2019"
   depends_on               = [module.dev_acm_certificate]
-}
-
-resource "aws_s3_bucket" "lambda" {
-  bucket = "universe-xyz-lambda-functions"
-  acl    = "private"
-
-  versioning {
-    enabled = true
-  }
-}
-
-module "dev_frontend_basic_auth" {
-  source                 = "transcend-io/lambda-at-edge/aws"
-  version                = "0.2.3"
-  name                   = "dev_frontend_basic_auth"
-  description            = "Add basic-auth for dev frontend"
-  runtime                = "nodejs12.x"
-  lambda_code_source_dir = "lambda_functions/basic-auth"
-  s3_artifact_bucket     = aws_s3_bucket.lambda.id
-
-  tags = {
-    Environment = "dev"
-  }
 }
 
 module "dev_universe_xyz_acm_certificate" {
@@ -148,7 +139,6 @@ module "dev_universe_xyz_frontend" {
     response_page_path    = "/index.html"
   }]
   logging_enabled = false
-
   lambda_function_association = module.lambda_at_edge.lambda_function_association
   geo_restriction_locations = [
     "BY", # Belarus
@@ -170,8 +160,6 @@ module "dev_universe_xyz_frontend" {
 
 resource "aws_s3_bucket" "universeapp_assets_dev" {
   bucket = "universeapp-assets-dev"
-  acl    = "public-read"
-
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -195,6 +183,37 @@ resource "aws_s3_bucket" "universeapp_assets_dev" {
     Name        = "universeapp-assets-dev"
     Project     = "kekdao"
     Environment = "dev"
+  }
+}
+
+resource "aws_s3_bucket_policy" "allow_cloudfront" {
+  bucket = aws_s3_bucket.universeapp_assets_dev.id
+  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
+}
+
+data "aws_iam_policy_document" "allow_cloudfront" {
+  statement {
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    actions = [
+      "s3:GetObject"
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:referer"
+
+      values = [
+        module.dev_universe_xyz_frontend.random_password.referer[0]
+      ]
+
+    resources = [
+      aws_s3_bucket.example.arn,
+      "${aws_s3_bucket.universeapp_assets_dev.arn}/*",
+    ]
   }
 }
 
