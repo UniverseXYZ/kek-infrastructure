@@ -247,6 +247,16 @@ resource "aws_iam_user_policy" "universeapp_assets_dev" {
 }
 
 # Not used but trying to delete currently fails
+resource "aws_s3_bucket" "lambda" {
+   bucket = "universe-xyz-lambda-functions"
+   acl    = "private"
+
+   versioning {
+     enabled = true
+   }
+ }
+
+# Not used but trying to delete currently fails
 module "dev_frontend_basic_auth" {
    source                 = "transcend-io/lambda-at-edge/aws"
    version                = "0.2.3"
