@@ -70,7 +70,7 @@ module "lambda_at_edge" {
   source  = "cloudposse/cloudfront-s3-cdn/aws//modules/lambda@edge"
   version = "0.82.3"
   functions = {
-    viewer_request = {
+    dev_basic_auth_viewer_request = {
       source = [{
         content  = <<-EOT
         exports.handler = async (event, context, callback) => {
@@ -245,6 +245,21 @@ resource "aws_iam_user_policy" "universeapp_assets_dev" {
   user   = aws_iam_user.universeapp_assets_dev.name
   policy = data.aws_iam_policy_document.universeapp_assets_dev.json
 }
+
+# Not used but trying to delete currently fails
+module "dev_frontend_basic_auth" {
+   source                 = "transcend-io/lambda-at-edge/aws"
+   version                = "0.2.3"
+   name                   = "dev_frontend_basic_auth"
+   description            = "Add basic-auth for dev frontend"
+   runtime                = "nodejs12.x"
+   lambda_code_source_dir = "lambda_functions/basic-auth"
+   s3_artifact_bucket     = aws_s3_bucket.lambda.id
+
+   tags = {
+     Environment = "dev"
+   }
+ }
 
 output "universeapp_assets_dev_access_key_id" {
   value = aws_iam_access_key.universeapp_assets_dev.id
