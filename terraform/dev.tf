@@ -87,8 +87,8 @@ module "lambda_at_edge" {
             const request = event.Records[0].cf.request;
             const headers = request.headers;
 
-            const user = 'graviton';
-            const pass = 'IsAwesome2022';
+            const user = 'citizen';
+            const pass = 'OfTheUniverse';
 
             const basicAuthentication = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
 
