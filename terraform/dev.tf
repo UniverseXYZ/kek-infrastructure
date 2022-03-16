@@ -188,33 +188,21 @@ resource "aws_s3_bucket" "universeapp_assets_dev" {
 
 resource "aws_s3_bucket_policy" "allow_cloudfront" {
   bucket = aws_s3_bucket.universeapp_assets_dev.id
-  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
+  policy = data.aws_iam_policy_document.allow_cloudfront.json
 }
 
 data "aws_iam_policy_document" "allow_cloudfront" {
   statement {
     principals {
       type        = "AWS"
-      identifiers = ["*"]
+      identifiers = [module.dev_universe_xyz_frontend.cf_identity_iam_arn]
     }
-
     actions = [
       "s3:GetObject"
     ]
-
-    condition {
-      test     = "StringEquals"
-      variable = "aws:referer"
-
-      values = [
-        module.dev_universe_xyz_frontend.random_password.referer[0]
+    resources = [
+      "${aws_s3_bucket.universeapp_assets_dev.arn}/*"
       ]
-
-      resources = [
-        aws_s3_bucket.example.arn,
-        "${aws_s3_bucket.universeapp_assets_dev.arn}/*",
-      ]
-    }
   }
 }
 
