@@ -70,7 +70,7 @@ module "lambda_at_edge" {
   source  = "cloudposse/cloudfront-s3-cdn/aws//modules/lambda@edge"
   version = "0.82.3"
   functions = {
-    dev_basic_auth_viewer_request = {
+    viewer_request = {
       source = [{
         content  = <<-EOT
         exports.handler = async (event, context, callback) => {
