@@ -103,7 +103,7 @@ resource "aws_docdb_cluster" "universe_prod" {
   engine_version                  = "4.0.0"
   master_username                 = "kekdao"
   master_password                 = var.PROD_DB_PASSWORD
-  db_subnet_group_name            = "dev-universe-20210505160751512000000001"
+  db_subnet_group_name            = "prod-universe-20210520134829492400000003"
   vpc_security_group_ids          = [data.aws_eks_cluster.prod.vpc_config[0].cluster_security_group_id]
   availability_zones              = ["us-east-1a", "us-east-1b", "us-east-1c"]
   db_cluster_parameter_group_name = "universe-dev-no-ssl"
