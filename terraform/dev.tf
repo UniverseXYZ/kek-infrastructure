@@ -160,6 +160,7 @@ module "dev_universe_xyz_frontend" {
 
 resource "aws_s3_bucket" "universeapp_assets_dev" {
   bucket = "universeapp-assets-dev"
+  acl    = "public-read"
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -186,25 +187,26 @@ resource "aws_s3_bucket" "universeapp_assets_dev" {
   }
 }
 
-resource "aws_s3_bucket_policy" "allow_cloudfront" {
-  bucket = aws_s3_bucket.universeapp_assets_dev.id
-  policy = data.aws_iam_policy_document.allow_cloudfront.json
-}
+# Broke frontend... have to look into this further...
+# resource "aws_s3_bucket_policy" "allow_cloudfront" {
+#   bucket = aws_s3_bucket.universeapp_assets_dev.id
+#   policy = data.aws_iam_policy_document.allow_cloudfront.json
+# }
 
-data "aws_iam_policy_document" "allow_cloudfront" {
-  statement {
-    principals {
-      type        = "AWS"
-      identifiers = [module.dev_universe_xyz_frontend.cf_identity_iam_arn]
-    }
-    actions = [
-      "s3:GetObject"
-    ]
-    resources = [
-      "${aws_s3_bucket.universeapp_assets_dev.arn}/*"
-      ]
-  }
-}
+# data "aws_iam_policy_document" "allow_cloudfront" {
+#   statement {
+#     principals {
+#       type        = "AWS"
+#       identifiers = [module.dev_universe_xyz_frontend.cf_identity_iam_arn]
+#     }
+#     actions = [
+#       "s3:GetObject"
+#     ]
+#     resources = [
+#       "${aws_s3_bucket.universeapp_assets_dev.arn}/*"
+#       ]
+#   }
+# }
 
 data "aws_iam_policy_document" "universeapp_assets_dev" {
   statement {
