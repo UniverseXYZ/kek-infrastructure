@@ -379,3 +379,194 @@ resource "aws_sqs_queue" "rinkeby_datascraper_owner_dlq" {
   visibility_timeout_seconds  = 180
   message_retention_seconds   = 1209600
 }
+
+#####PROD#####
+
+resource "aws_sqs_queue" "prod_datascraper_block" {
+  name                        = "prod-datascraper-block.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.prod_datascraper_block_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.prod_datascraper_block_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "prod_datascraper_block_dlq" {
+  name                        = "prod-datascraper-block-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "prod_datascraper_block_backwards" {
+  name                        = "prod-datascraper-block-backwards.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.prod_datascraper_block_backwards_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.prod_datascraper_block_backwards_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "prod_datascraper_block_backwards_dlq" {
+  name                        = "prod-datascraper-block-backwards-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "prod_datascraper_media" {
+  name                        = "prod-datascraper-media.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.prod_datascraper_media_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.prod_datascraper_media_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "prod_datascraper_media_dlq" {
+  name                        = "prod-datascraper-media-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "prod_datascraper_token" {
+  name                        = "prod-datascraper-token.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.prod_datascraper_token_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.prod_datascraper_token_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "prod_datascraper_token_dlq" {
+  name                        = "prod-datascraper-token-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "prod_datascraper_transfer" {
+  name                        = "prod-datascraper-transfer.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.prod_datascraper_transfer_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.prod_datascraper_transfer_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "prod_datascraper_transfer_dlq" {
+  name                        = "prod-datascraper-transfer-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "prod_datascraper_transfer_monitor" {
+  name                        = "prod-datascraper-transfer-monitor.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.prod_datascraper_transfer_monitor_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.prod_datascraper_transfer_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "prod_datascraper_transfer_monitor_dlq" {
+  name                        = "prod-datascraper-transfer-monitor-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "prod_datascraper_owner" {
+  name                        = "prod-datascraper-owner.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+  depends_on                  = [aws_sqs_queue.prod_datascraper_owner_dlq]
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.prod_datascraper_owner_dlq.arn
+    maxReceiveCount     = 1000
+  })
+}
+
+resource "aws_sqs_queue" "prod_datascraper_owner_dlq" {
+  name                        = "prod-datascraper-owner-dlq.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 180
+  message_retention_seconds   = 1209600
+}

@@ -616,3 +616,312 @@ output "rinkeby_datascraper_iam_api_secret" {
   sensitive = true
   value     = aws_iam_access_key.rinkeby_datascraper_iam_user.secret
 }
+
+#####PROD#####
+
+resource "aws_s3_bucket" "universe_prod_datascraper_video" {
+  bucket = "universe-prod-datascraper-video"
+  acl    = "private"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["https://universe.xyz", "https://prod-universexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    expose_headers  = []
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  tags = {
+    Name        = "universe-prod-datascraper-video"
+    Project     = "kekdao"
+    Environment = "prod"
+  }
+}
+
+data "aws_iam_policy_document" "universe_prod_datascraper_video" {
+  statement {
+    actions = [
+      "s3:GetObject",
+    ]
+    resources = [
+      format("%s/*", aws_s3_bucket.universe_prod_datascraper_video.arn)
+    ]
+    effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "universe_prod_datascraper_video" {
+  bucket = aws_s3_bucket.universe_prod_datascraper_video.id
+  policy = data.aws_iam_policy_document.universe_prod_datascraper_video.json
+}
+
+resource "aws_s3_bucket" "universe_prod_datascraper_images" {
+  bucket = "universe-prod-datascraper-images"
+  acl    = "private"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["https://universe.xyz", "https://prod-universexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    expose_headers  = []
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  tags = {
+    Name        = "universe-prod-datascraper-images"
+    Project     = "kekdao"
+    Environment = "prod"
+  }
+}
+
+data "aws_iam_policy_document" "universe_prod_datascraper_images" {
+  statement {
+    actions = [
+      "s3:GetObject",
+    ]
+    resources = [
+      format("%s/*", aws_s3_bucket.universe_prod_datascraper_images.arn)
+    ]
+    effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "universe_prod_datascraper_images" {
+  bucket = aws_s3_bucket.universe_prod_datascraper_images.id
+  policy = data.aws_iam_policy_document.universe_prod_datascraper_images.json
+}
+
+resource "aws_s3_bucket" "universe_prod_datascraper_audio" {
+  bucket = "universe-prod-datascraper-audio"
+  acl    = "private"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["https://universe.xyz", "https://prod-universexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    expose_headers  = []
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  tags = {
+    Name        = "universe-prod-datascraper-audio"
+    Project     = "kekdao"
+    Environment = "prod"
+  }
+}
+
+data "aws_iam_policy_document" "universe_prod_datascraper_audio" {
+  statement {
+    actions = [
+      "s3:GetObject",
+    ]
+    resources = [
+      format("%s/*", aws_s3_bucket.universe_prod_datascraper_audio.arn)
+    ]
+    effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "universe_prod_datascraper_audio" {
+  bucket = aws_s3_bucket.universe_prod_datascraper_audio.id
+  policy = data.aws_iam_policy_document.universe_prod_datascraper_audio.json
+}
+
+resource "aws_s3_bucket" "universe_prod_datascraper_models" {
+  bucket = "universe-prod-datascraper-models"
+  acl    = "private"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["https://universe.xyz", "https://prod-universexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    expose_headers  = []
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  tags = {
+    Name        = "universe-prod-datascraper-models"
+    Project     = "kekdao"
+    Environment = "prod"
+  }
+}
+
+data "aws_iam_policy_document" "universe_prod_datascraper_models" {
+  statement {
+    actions = [
+      "s3:GetObject",
+    ]
+    resources = [
+      format("%s/*", aws_s3_bucket.universe_prod_datascraper_models.arn)
+    ]
+    effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "universe_prod_datascraper_models" {
+  bucket = aws_s3_bucket.universe_prod_datascraper_models.id
+  policy = data.aws_iam_policy_document.universe_prod_datascraper_models.json
+}
+
+resource "aws_s3_bucket" "universe_prod_datascraper_misc" {
+  bucket = "universe-prod-datascraper-misc"
+  acl    = "private"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["https://universe.xyz", "https://prod-universexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    expose_headers  = []
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  tags = {
+    Name        = "universe-prod-datascraper-misc"
+    Project     = "kekdao"
+    Environment = "prod"
+  }
+}
+
+data "aws_iam_policy_document" "universe_prod_datascraper_misc" {
+  statement {
+    actions = [
+      "s3:GetObject",
+    ]
+    resources = [
+      format("%s/*", aws_s3_bucket.universe_prod_datascraper_misc.arn)
+    ]
+    effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "universe_prod_datascraper_misc" {
+  bucket = aws_s3_bucket.universe_prod_datascraper_misc.id
+  policy = data.aws_iam_policy_document.universe_prod_datascraper_misc.json
+}
+
+resource "aws_iam_user" "prod_datascraper_iam_user" {
+  name = "universe-prod-datascraper-iam-user"
+  path = "/"
+
+  tags = {
+    Name        = "universe-prod-datascraper-iam-user"
+    Project     = "kekdao"
+    Environment = "prod"
+  }
+}
+
+resource "aws_iam_access_key" "prod_datascraper_iam_user" {
+  user = aws_iam_user.prod_datascraper_iam_user.name
+}
+
+resource "aws_iam_user_policy" "prod_datascraper_iam_user" {
+  name = "prod_datascraper_iam_policy"
+  user = aws_iam_user.prod_datascraper_iam_user.name
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": "arn:aws:s3:::universe-prod-datascraper-*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "sqs:ListQueues",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "sqs:*",
+      "Resource": "arn:aws:sqs:us-east-1:076129510628:prod-datascraper-*"
+    }
+  ]
+}
+EOF
+}
+
+output "prod_datascraper_iam_api_key_id" {
+  value = aws_iam_access_key.prod_datascraper_iam_user.id
+}
+
+output "prod_datascraper_iam_api_secret" {
+  sensitive = true
+  value     = aws_iam_access_key.prod_datascraper_iam_user.secret
+}
