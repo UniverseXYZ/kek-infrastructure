@@ -188,25 +188,27 @@ resource "aws_s3_bucket" "universeapp_assets_dev" {
 }
 
 # Broke frontend... have to look into this further...
-# resource "aws_s3_bucket_policy" "allow_cloudfront" {
-#   bucket = aws_s3_bucket.universeapp_assets_dev.id
-#   policy = data.aws_iam_policy_document.allow_cloudfront.json
-# }
+resource "aws_s3_bucket_policy" "allow_cloudfront" {
+  bucket = aws_s3_bucket.universeapp_assets_dev.id
+  policy = data.aws_iam_policy_document.allow_cloudfront.json
+}
 
-# data "aws_iam_policy_document" "allow_cloudfront" {
-#   statement {
-#     principals {
-#       type        = "AWS"
-#       identifiers = [module.dev_universe_xyz_frontend.cf_identity_iam_arn]
-#     }
-#     actions = [
-#       "s3:GetObject"
-#     ]
-#     resources = [
-#       "${aws_s3_bucket.universeapp_assets_dev.arn}/*"
-#       ]
-#   }
-# }
+data "aws_iam_policy_document" "allow_cloudfront" {
+  statement {
+    principals {
+      type        = "AWS"
+      # The below breaks frontend for some reason, need to look into further...
+      #identifiers = [module.dev_universe_xyz_frontend.cf_identity_iam_arn]
+      identifiers = ["*"]
+    }
+    actions = [
+      "s3:GetObject"
+    ]
+    resources = [
+      "${aws_s3_bucket.universeapp_assets_dev.arn}/*"
+      ]
+  }
+}
 
 data "aws_iam_policy_document" "universeapp_assets_dev" {
   statement {
