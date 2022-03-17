@@ -37,20 +37,6 @@ resource "aws_docdb_cluster" "universe_dev" {
 
 #####DEV#####
 
-resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_instance1" {
-  identifier         = "universe-rinkeby"
-  cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
-  instance_class     = "db.t4g.medium"
-  promotion_tier     = 1
-}
-
-resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_instance2" {
-  identifier         = "universe-rinkeby2"
-  cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
-  instance_class     = "db.t4g.medium"
-  promotion_tier     = 1
-}
-
 resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_slave" {
   identifier         = "universe-rinkeby-slave"
   cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
