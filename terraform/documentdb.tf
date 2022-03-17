@@ -51,6 +51,13 @@ resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_instance2" {
   promotion_tier     = 1
 }
 
+resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_slave" {
+  identifier         = "universe-rinkeby-master"
+  cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
+  instance_class     = "db.r6g.large"
+  promotion_tier     = 1
+}
+
 resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_master" {
   identifier         = "universe-rinkeby-master"
   cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
