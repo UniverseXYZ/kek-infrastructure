@@ -31,6 +31,9 @@ variable "external_developers_list" {
     9 : { "name" : "ryan",
       "email" : "ryan@universe.xyz"
     },
+    10 : { "name" : "reid",
+      "email" : "reid@universe.xyz"
+    },
   }
 
 }
