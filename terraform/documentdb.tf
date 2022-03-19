@@ -5,6 +5,7 @@ resource "aws_docdb_cluster_instance" "universe_dev_cluster_master" {
   cluster_identifier = aws_docdb_cluster.universe_dev.id
   instance_class     = "db.r6g.xlarge"
   promotion_tier     = 0
+  apply_immediately  = true
 }
 
 resource "aws_docdb_cluster_instance" "universe_dev_cluster_slave" {
@@ -12,6 +13,7 @@ resource "aws_docdb_cluster_instance" "universe_dev_cluster_slave" {
   cluster_identifier = aws_docdb_cluster.universe_dev.id
   instance_class     = "db.r6g.large"
   promotion_tier     = 1
+  apply_immediately  = true
 }
 
 resource "aws_docdb_cluster_instance" "universe_dev_cluster_slave2" {
@@ -19,6 +21,7 @@ resource "aws_docdb_cluster_instance" "universe_dev_cluster_slave2" {
   cluster_identifier = aws_docdb_cluster.universe_dev.id
   instance_class     = "db.r6g.large"
   promotion_tier     = 1
+  apply_immediately  = true
 }
 
 
@@ -50,6 +53,7 @@ resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_slave" {
   cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
   instance_class     = "db.r6g.large"
   promotion_tier     = 1
+  apply_immediately  = true
 }
 
 resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_master" {
@@ -57,6 +61,7 @@ resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_master" {
   cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
   instance_class     = "db.r6g.large"
   promotion_tier     = 0
+  apply_immediately  = true
 }
 
 resource "aws_docdb_cluster" "universe_rinkeby" {
@@ -88,6 +93,7 @@ resource "aws_docdb_cluster_instance" "universe_prod_cluster_slave_1" {
   cluster_identifier = aws_docdb_cluster.universe_prod.id
   instance_class     = "db.r6g.large"
   promotion_tier     = 1
+  apply_immediately  = true
 }
 
 resource "aws_docdb_cluster_instance" "universe_prod_cluster_master" {
@@ -95,6 +101,7 @@ resource "aws_docdb_cluster_instance" "universe_prod_cluster_master" {
   cluster_identifier = aws_docdb_cluster.universe_prod.id
   instance_class     = "db.r6g.large"
   promotion_tier     = 0
+  apply_immediately  = true
 }
 
 resource "aws_docdb_cluster" "universe_prod" {
