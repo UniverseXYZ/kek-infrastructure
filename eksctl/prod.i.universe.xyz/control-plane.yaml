@@ -139,9 +139,9 @@ managedNodeGroups:
   - name: prod-i-universe-xyz-app-1a-v2
     instanceType: m5a.xlarge
     availabilityZones: ["us-east-1a"]
-    minSize: 2
-    maxSize: 5
-    desiredCapacity: 2
+    minSize: 3
+    maxSize: 6
+    desiredCapacity: 3
     privateNetworking: true
     ebsOptimized: true
     volumeEncrypted: true
@@ -165,9 +165,9 @@ managedNodeGroups:
   - name: prod-i-universe-xyz-app-1b-v2
     instanceType: m5a.xlarge
     availabilityZones: ["us-east-1b"]
-    minSize: 2
-    maxSize: 5
-    desiredCapacity: 2
+    minSize: 3
+    maxSize: 6
+    desiredCapacity: 3
     privateNetworking: true
     ebsOptimized: true
     volumeEncrypted: true
