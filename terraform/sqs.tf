@@ -77,6 +77,28 @@ resource "aws_sqs_queue" "datascraper_owner" {
   message_retention_seconds   = 1209600
 }
 
+resource "aws_sqs_queue" "datascraper_token_monitor" {
+  name                        = "datascraper-token-monitor.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 600
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "datascraper_mediafiles_monitor" {
+  name                        = "datascraper-mediafiles-monitor.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 600
+  message_retention_seconds   = 1209600
+}
+
 #####DEV#####
 
 resource "aws_sqs_queue" "rinkeby_datascraper_block" {
@@ -156,6 +178,28 @@ resource "aws_sqs_queue" "rinkeby_datascraper_owner" {
   message_retention_seconds   = 1209600
 }
 
+resource "aws_sqs_queue" "rinkeby_datascraper_token_monitor" {
+  name                        = "rinkeby-datascraper-token-monitor.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 600
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "rinkeby_datascraper_mediafiles_monitor" {
+  name                        = "rinkeby-datascraper-mediafiles-monitor.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 600
+  message_retention_seconds   = 1209600
+}
+
 #####PROD#####
 
 resource "aws_sqs_queue" "prod_datascraper_block" {
@@ -226,6 +270,28 @@ resource "aws_sqs_queue" "prod_datascraper_transfer_monitor" {
 
 resource "aws_sqs_queue" "prod_datascraper_owner" {
   name                        = "prod-datascraper-owner.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 600
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "prod_datascraper_token_monitor" {
+  name                        = "prod-datascraper-token-monitor.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = false
+  sqs_managed_sse_enabled     = true
+  deduplication_scope         = "messageGroup"
+  fifo_throughput_limit       = "perMessageGroupId"
+  visibility_timeout_seconds  = 600
+  message_retention_seconds   = 1209600
+}
+
+resource "aws_sqs_queue" "prod_datascraper_mediafiles_monitor" {
+  name                        = "prod-datascraper-mediafiles-monitor.fifo"
   fifo_queue                  = true
   content_based_deduplication = false
   sqs_managed_sse_enabled     = true
