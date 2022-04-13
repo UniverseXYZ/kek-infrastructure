@@ -310,6 +310,57 @@ output "dev_datascraper_iam_api_secret" {
 
 #####DEV#####
 
+resource "aws_s3_bucket" "universe_rinkeby_datascraper_sqs" {
+  bucket = "universe-rinkeby-datascraper-sqs"
+  acl    = "private"
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["https://dev.universe.xyz", "https://dev-devuniversexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    expose_headers  = []
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+
+  tags = {
+    Name        = "universe-rinkeby-datascraper-sqs"
+    Project     = "kekdao"
+    Environment = "rinkeby"
+  }
+}
+
+data "aws_iam_policy_document" "universe_rinkeby_datascraper_sqs" {
+  statement {
+    actions = [
+      "s3:GetObject",
+    ]
+    resources = [
+      format("%s/*", aws_s3_bucket.universe_rinkeby_datascraper_sqs.arn)
+    ]
+    effect = "Allow"
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_sqs" {
+  bucket = aws_s3_bucket.universe_rinkeby_datascraper_sqs.id
+  policy = data.aws_iam_policy_document.universe_rinkeby_datascraper_sqs.json
+}
+
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_video" {
   bucket = "universe-rinkeby-datascraper-video"
   acl    = "private"
