@@ -90,7 +90,7 @@ module "dev_db" {
 
   identifier        = "dev-universe"
   engine            = "postgres"
-  engine_version    = "12.7"
+  engine_version    = "12.8"
   instance_class    = "db.t3.small"
   allocated_storage = 8
   storage_encrypted = true
@@ -124,11 +124,6 @@ module "dev_db" {
     Project     = "kekdao"
     Environment = "dev"
   }
-  lifecycle {
-    ignore_changes = [
-      engine_version
-    ]
-  }
 }
 
 module "dev_nft_db" {
@@ -137,7 +132,7 @@ module "dev_nft_db" {
 
   identifier        = "dev-nft-universe"
   engine            = "postgres"
-  engine_version    = "12.7"
+  engine_version    = "12.8"
   instance_class    = "db.m4.large"
   allocated_storage = 10
   storage_encrypted = true
@@ -171,11 +166,6 @@ module "dev_nft_db" {
     Project     = "kekdao"
     Environment = "nft"
   }
-  lifecycle {
-    ignore_changes = [
-      engine_version
-    ]
-  }
 }
 
 
@@ -185,7 +175,7 @@ module "auctions_db" {
 
   identifier        = "auctions-universe"
   engine            = "postgres"
-  engine_version    = "12.7"
+  engine_version    = "12.8"
   instance_class    = "db.m6g.large"
   allocated_storage = 80
   storage_encrypted = true
@@ -219,11 +209,6 @@ module "auctions_db" {
     Project     = "kekdao"
     Environment = "auctions"
   }
-  lifecycle {
-    ignore_changes = [
-      engine_version
-    ]
-  }
 }
 
 module "alpha_db" {
@@ -232,7 +217,7 @@ module "alpha_db" {
 
   identifier        = "alpha-universe"
   engine            = "postgres"
-  engine_version    = "12.7"
+  engine_version    = "12.8"
   instance_class    = "db.m6g.large"
   allocated_storage = 80
   storage_encrypted = true
@@ -266,11 +251,6 @@ module "alpha_db" {
     Project     = "kekdao"
     Environment = "alpha"
   }
-  lifecycle {
-    ignore_changes = [
-      engine_version
-    ]
-  }
 }
 
 module "prod_db" {
@@ -279,7 +259,7 @@ module "prod_db" {
 
   identifier        = "prod-universe"
   engine            = "postgres"
-  engine_version    = "12.7"
+  engine_version    = "12.8"
   instance_class    = "db.m6g.large"
   allocated_storage = 80
   storage_encrypted = true
@@ -312,11 +292,6 @@ module "prod_db" {
   tags = {
     Project     = "kekdao"
     Environment = "production"
-  }
-  lifecycle {
-    ignore_changes = [
-      engine_version
-    ]
   }
 }
 
