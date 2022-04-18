@@ -56,6 +56,14 @@ resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_slave" {
   apply_immediately  = true
 }
 
+resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_slave2" {
+  identifier         = "universe-rinkeby-slave2"
+  cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
+  instance_class     = "db.r6g.large"
+  promotion_tier     = 1
+  apply_immediately  = true
+}
+
 resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_master" {
   identifier         = "universe-rinkeby-master"
   cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
