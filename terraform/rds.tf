@@ -124,6 +124,11 @@ module "dev_db" {
     Project     = "kekdao"
     Environment = "dev"
   }
+  lifecycle {
+    ignore_changes = [
+      engine_version
+    ]
+  }
 }
 
 module "dev_nft_db" {
@@ -165,6 +170,11 @@ module "dev_nft_db" {
   tags = {
     Project     = "kekdao"
     Environment = "nft"
+  }
+  lifecycle {
+    ignore_changes = [
+      engine_version
+    ]
   }
 }
 
@@ -209,6 +219,11 @@ module "auctions_db" {
     Project     = "kekdao"
     Environment = "auctions"
   }
+  lifecycle {
+    ignore_changes = [
+      engine_version
+    ]
+  }
 }
 
 module "alpha_db" {
@@ -251,6 +266,11 @@ module "alpha_db" {
     Project     = "kekdao"
     Environment = "alpha"
   }
+  lifecycle {
+    ignore_changes = [
+      engine_version
+    ]
+  }
 }
 
 module "prod_db" {
@@ -292,6 +312,11 @@ module "prod_db" {
   tags = {
     Project     = "kekdao"
     Environment = "production"
+  }
+  lifecycle {
+    ignore_changes = [
+      engine_version
+    ]
   }
 }
 
