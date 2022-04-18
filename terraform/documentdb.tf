@@ -44,6 +44,11 @@ resource "aws_docdb_cluster" "universe_dev" {
     CreationDate = "01/17/2022"
     Creator      = "trevor.latson"
   }
+  lifecycle {
+    ignore_changes = [
+      engine_version
+    ]
+  }
 }
 
 #####DEV#####
@@ -83,6 +88,11 @@ resource "aws_docdb_cluster" "universe_rinkeby" {
     BusinessUse  = "Universe Rinkeby"
     CreationDate = "02/16/2022"
     Creator      = "trevor.latson"
+  }
+  lifecycle {
+    ignore_changes = [
+      engine_version
+    ]
   }
 }
 
@@ -132,5 +142,10 @@ resource "aws_docdb_cluster" "universe_prod" {
     BusinessUse  = "Universe Prod"
     CreationDate = "03/16/2022"
     Creator      = "trevor.latson"
+  }
+  lifecycle {
+    ignore_changes = [
+      engine_version
+    ]
   }
 }
