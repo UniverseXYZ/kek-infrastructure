@@ -1,4 +1,4 @@
-provider “mongodbatlas” {
+provider "mongodbatlas" {
   public_key = var.ATLAS_ORG_OWNER_PUBLICKEY
   private_key = var.ATLAS_ORG_OWNER_PRIVATEKEY
 }
