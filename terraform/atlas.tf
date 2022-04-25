@@ -8,6 +8,7 @@ resource "aws_cloudformation_stack" "dev_atlas" {
   name                         = "universe-dev-atlas"
   template_url                 = "https://aws-quickstart.s3.amazonaws.com/quickstart-mongodb-atlas/templates/mongodb-atlas-peering-existingvpc.template.yaml"
   capabilities                 = ["CAPABILITY_IAM","CAPABILITY_NAMED_IAM","CAPABILITY_AUTO_EXPAND"]
+  disable_rollback             = "true"
   parameters = {
     VPC                        = "vpc-0d321bfd608628cdd" # dev EKS cluster EC2 worker node VPC
     RouteTableCIDRBlock        = "10.107.0.0/16"
