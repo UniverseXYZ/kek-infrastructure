@@ -1,3 +1,7 @@
+variable "ATLAS_ORG_OWNER_PRIVATEKEY" {
+  type = string
+}
+
 ##### DEV #####
 
 resource "aws_cloudformation_stack" "dev_atlas" {
