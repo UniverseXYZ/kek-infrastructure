@@ -1,3 +1,6 @@
+# Reference: https://github.com/nikhil-mongo/aws-atlas-terraform
+# To generate Atlas API Key Whitelist: https://github.com/mongodb-developer/get-started-aws-cfn/blob/main/aws-access-lister.sh
+
 provider "mongodbatlas" {
   public_key = var.ATLAS_ORG_OWNER_PUBLICKEY
   private_key = var.ATLAS_ORG_OWNER_PRIVATEKEY
@@ -51,7 +54,7 @@ resource "mongodbatlas_cluster" "dev-cluster-atlas" {
       read_only_nodes = 0
     }
   }
-  provider_backup_enabled      = true
+  cloud_backup                 = true
   auto_scaling_disk_gb_enabled = true
   mongo_db_major_version       = "4.4"
 
@@ -91,12 +94,12 @@ resource "mongodbatlas_network_peering" "dev-aws-atlas" {
   project_id             = mongodbatlas_project.aws_atlas_dev.id
   container_id           = mongodbatlas_network_container.dev_atlas_container.container_id
   provider_name          = "AWS"
-  route_table_cidr_block = aws_vpc.primary.cidr_block
+  route_table_cidr_block = "10.107.0.0/16" # Dev VPC CIDR Range
   vpc_id                 = "vpc-0d321bfd608628cdd" # eksctl-dev-i-universe-xyz-cluster/VPC
   aws_account_id         = data.aws_caller_identity.current.account_id
 }
 
-resource "mongodbatlas_project_ip_whitelist" "dev_vpc" {
+resource "mongodbatlas_project_ip_access_list" "dev_vpc" {
   project_id = mongodbatlas_project.aws_atlas_dev.id
   cidr_block = "10.107.0.0/16" # Dev VPC CIDR Range
   comment    = "cidr block for AWS VPC"
@@ -110,6 +113,6 @@ resource "aws_route" "dev_peeraccess" {
 }
 
 resource "aws_vpc_peering_connection_accepter" "dev_peer" {
-  vpc_peering_connection_id = mongodbatlas_network_peering.aws-atlas.connection_id
+  vpc_peering_connection_id = mongodbatlas_network_peering.dev-aws-atlas.connection_id
   auto_accept               = true
 }
