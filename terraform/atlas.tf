@@ -14,7 +14,7 @@ variable "atlas_region" {
   default     = "US_EAST_1"
   description = "Atlas Region"
 }
-variable "aws_region" {
+variable "atlas_aws_region" {
   default     = "us-east-1"
   description = "AWS Region"
 }
@@ -87,7 +87,7 @@ data "mongodbatlas_network_container" "dev_atlas_container" {
 data "aws_caller_identity" "current" {}
 
 resource "mongodbatlas_network_peering" "dev-aws-atlas" {
-  accepter_region_name   = var.aws_region
+  accepter_region_name   = var.atlas_aws_region
   project_id             = mongodbatlas_project.aws_atlas_dev.id
   container_id           = mongodbatlas_network_container.dev_atlas_container.container_id
   provider_name          = "AWS"
