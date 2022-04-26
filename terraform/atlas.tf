@@ -119,7 +119,7 @@ resource "aws_vpc_peering_connection_accepter" "dev_peer" {
 
 # Add rule in EKS security group to access Atlas outbound
 resource "aws_security_group_rule" "dev_eks_to_atlas" {
-  type              = "ingress"
+  type              = "egress"
   from_port         = 27015
   to_port           = 27017
   protocol          = "tcp"
