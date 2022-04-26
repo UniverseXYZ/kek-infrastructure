@@ -127,10 +127,10 @@ resource "aws_security_group_rule" "dev_eks_to_atlas" {
   security_group_id = data.aws_eks_cluster.dev.vpc_config[0].cluster_security_group_id # eks-cluster-sg-dev-i-universe-xyz-1311676845
 }
 
-output "connection_string_private" {
-    value = mongodbatlas_cluster.dev-cluster-atlas.connection_strings[0].private
+output "connection_string_standard" {
+    value = mongodbatlas_cluster.dev-cluster-atlas.connection_strings[0].standard
 }
 
-output "connection_string_private_srv" {
-    value = mongodbatlas_cluster.dev-cluster-atlas.connection_strings[0].private_srv
+output "connection_string_standard_srv" {
+    value = mongodbatlas_cluster.dev-cluster-atlas.connection_strings[0].standard_srv
 }
