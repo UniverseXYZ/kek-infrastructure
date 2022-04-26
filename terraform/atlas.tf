@@ -116,3 +116,13 @@ resource "aws_vpc_peering_connection_accepter" "dev_peer" {
   vpc_peering_connection_id = mongodbatlas_network_peering.dev-aws-atlas.connection_id
   auto_accept               = true
 }
+
+# Add rule in EKS security group to access Atlas outbound
+resource "aws_security_group_rule" "dev_eks_to_atlas" {
+  type              = "ingress"
+  from_port         = 27015
+  to_port           = 27017
+  protocol          = "tcp"
+  cidr_blocks       = [mongodbatlas_network_peering.dev-aws-atlas.route_table_cidr_block]
+  security_group_id = "sg-08a7f35e5f8e06a5a" # eks-cluster-sg-dev-i-universe-xyz-1311676845
+}
