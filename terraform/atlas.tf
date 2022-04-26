@@ -33,9 +33,17 @@ variable "atlas_vpc_cidr" {
   description = "Atlas CIDR"
   default     = "192.168.232.0/21"
 }
+variable "dev_vpc_id" {
+  description = "Dev EKS Cluster VPC Id"
+  default     = "vpc-0d321bfd608628cdd"
+}
+variable "dev_vpc_cidr" {
+  description = "Dev EKS Cluster VPC CIDR Range"
+  default     = "10.107.0.0/16"
+}
 
 ##### DEV #####
-
+# Create Atlas Project and Cluster
 resource "mongodbatlas_project" "aws_atlas_dev" {
   name   = "Universe-Dev"
   org_id = var.atlasorgid
@@ -64,6 +72,7 @@ resource "mongodbatlas_cluster" "dev-cluster-atlas" {
   provider_instance_size_name = "M10"
 }
 
+# Create database user
 resource "mongodbatlas_database_user" "db-user-dev" {
   username           = var.atlas_dbuser
   password           = var.DEV_DB_PASSWORD # var resides in Terraform Cloud as a sensitive value
@@ -75,6 +84,8 @@ resource "mongodbatlas_database_user" "db-user-dev" {
   }
   depends_on = [mongodbatlas_project.aws_atlas_dev]
 }
+
+# Create VPC Peering Connection
 resource "mongodbatlas_network_container" "dev_atlas_container" {
   atlas_cidr_block = var.atlas_vpc_cidr
   project_id       = mongodbatlas_project.aws_atlas_dev.id
@@ -94,22 +105,15 @@ resource "mongodbatlas_network_peering" "dev-aws-atlas" {
   project_id             = mongodbatlas_project.aws_atlas_dev.id
   container_id           = mongodbatlas_network_container.dev_atlas_container.container_id
   provider_name          = "AWS"
-  route_table_cidr_block = "10.107.0.0/16" # Dev VPC CIDR Range
-  vpc_id                 = "vpc-0d321bfd608628cdd" # eksctl-dev-i-universe-xyz-cluster/VPC
+  route_table_cidr_block = var.dev_vpc_cidr
+  vpc_id                 = var.dev_vpc_id
   aws_account_id         = data.aws_caller_identity.current.account_id
 }
 
 resource "mongodbatlas_project_ip_access_list" "dev_vpc" {
   project_id = mongodbatlas_project.aws_atlas_dev.id
-  cidr_block = "10.107.0.0/16" # Dev VPC CIDR Range
+  cidr_block = var.dev_vpc_cidr
   comment    = "cidr block for AWS VPC"
-}
-
-resource "aws_route" "dev_peeraccess" {
-  route_table_id            = "rtb-0be93ac828475034b" # Main Route Table for vpc-0d321bfd608628cdd
-  destination_cidr_block    = var.atlas_vpc_cidr
-  vpc_peering_connection_id = mongodbatlas_network_peering.dev-aws-atlas.connection_id
-  depends_on                = [aws_vpc_peering_connection_accepter.dev_peer]
 }
 
 resource "aws_vpc_peering_connection_accepter" "dev_peer" {
@@ -117,14 +121,21 @@ resource "aws_vpc_peering_connection_accepter" "dev_peer" {
   auto_accept               = true
 }
 
-# Add rule in EKS security group to access Atlas outbound
-resource "aws_security_group_rule" "dev_eks_to_atlas" {
-  type              = "egress"
-  from_port         = 27015
-  to_port           = 27017
-  protocol          = "tcp"
-  cidr_blocks       = [var.atlas_vpc_cidr]
-  security_group_id = data.aws_eks_cluster.dev.vpc_config[0].cluster_security_group_id # eks-cluster-sg-dev-i-universe-xyz-1311676845
+# Create routing for peering connection in private subnet route tables
+data "aws_route_tables" "dev_route_tables" {
+  vpc_id = var.dev_vpc_id
+
+  filter {
+    name   = "tag:Name"
+    values = ["eksctl-dev-i-universe-xyz-cluster/PrivateRouteTable*"]
+  }
+}
+
+resource "aws_route" "dev_routes" {
+  count                     = length(data.aws_route_tables.dev_route_tables.ids)
+  route_table_id            = tolist(data.aws_route_tables.dev_route_tables.ids)[count.index]
+  destination_cidr_block    = var.atlas_vpc_cidr
+  vpc_peering_connection_id = mongodbatlas_network_peering.dev-aws-atlas.connection_id
 }
 
 output "connection_string_standard" {
