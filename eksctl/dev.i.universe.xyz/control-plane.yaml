@@ -163,9 +163,9 @@ managedNodeGroups:
   - name: dev-i-universe-xyz-app-1b-v2
     instanceType: m5a.xlarge
     availabilityZones: ["us-east-1b"]
-    minSize: 3
+    minSize: 4
     maxSize: 5
-    desiredCapacity: 3
+    desiredCapacity: 4
     privateNetworking: true
     ebsOptimized: true
     volumeEncrypted: true
