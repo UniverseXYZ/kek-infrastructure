@@ -82,6 +82,11 @@ resource "mongodbatlas_database_user" "db-user-dev" {
     role_name     = "readWrite"
     database_name = "admin"
   }
+  roles {
+    role_name     = "atlasAdmin"
+    database_name = "admin"
+  }
+
   depends_on = [mongodbatlas_project.aws_atlas_dev]
 }
 
