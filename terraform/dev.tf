@@ -172,7 +172,7 @@ resource "aws_s3_bucket" "universeapp_assets_dev" {
   cors_rule {
     allowed_headers = ["*"]
     allowed_methods = ["GET", "HEAD"]
-    allowed_origins = ["https://dev.universe.xyz", "https://dev-devuniversexyz-origin.s3-website-us-east-1.amazonaws.com"]
+    allowed_origins = ["https://dev.universe.xyz", "https://dev-devuniversexyz-origin.s3-website-us-east-1.amazonaws.com", "https://dev.xeenon.xyz", "https://dev.hadron.xyz"]
     expose_headers  = []
   }
 
