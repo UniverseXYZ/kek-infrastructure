@@ -15,8 +15,13 @@ terraform {
     mongodbatlas = {
       source = "mongodb/mongodbatlas"
     }
+    template = {
+      source = "hashicorp/template"
+      version = "2.2.0"
+    }
   }
 }
+
 
 provider "aws" {
   region = "us-east-1"
