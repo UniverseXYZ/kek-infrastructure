@@ -35,11 +35,11 @@ variable "atlas_vpc_cidr" {
 }
 variable "dev_vpc_id" {
   description = "Dev EKS Cluster VPC Id"
-  default     = "vpc-0d321bfd608628cdd"
+  default     = "vpc-092d8eb760290eb67"
 }
 variable "dev_vpc_cidr" {
   description = "Dev EKS Cluster VPC CIDR Range"
-  default     = "10.107.0.0/16"
+  default     = "172.31.0.0/16"
 }
 
 ##### DEV #####
@@ -130,10 +130,6 @@ resource "aws_vpc_peering_connection_accepter" "dev_peer" {
 data "aws_route_tables" "dev_route_tables" {
   vpc_id = var.dev_vpc_id
 
-  filter {
-    name   = "tag:Name"
-    values = ["eksctl-dev-i-universe-xyz-cluster/PrivateRouteTable*"]
-  }
 }
 
 resource "aws_route" "dev_routes" {

@@ -3,9 +3,10 @@
 module "auctions_universe_xyz_acm_certificate" {
   source                      = "cloudposse/acm-request-certificate/aws"
   version                     = "0.10.0"
-  zone_name                   = "universe.xyz"
+  zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "auctions.dev.universe.xyz"
   wait_for_certificate_issued = true
+  depends_on                  = [ aws_route53_zone.main ]
 }
 
 module "auctions_universe_xyz_frontend" {

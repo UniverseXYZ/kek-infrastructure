@@ -3,9 +3,10 @@
 module "marketplace_universe_xyz_acm_certificate" {
   source                      = "cloudposse/acm-request-certificate/aws"
   version                     = "0.15.1"
-  zone_name                   = "universe.xyz"
+  zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "marketplace.dev.universe.xyz"
   wait_for_certificate_issued = true
+  depends_on                  = [ aws_route53_zone.main ]
 }
 
 module "marketplace_universe_xyz_frontend" {
@@ -181,9 +182,10 @@ output "universeapp_assets_marketplace_secret_access_key" {
 module "alpha_marketplace_universe_xyz_acm_certificate" {
   source                      = "cloudposse/acm-request-certificate/aws"
   version                     = "0.15.1"
-  zone_name                   = "universe.xyz"
+  zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "marketplace.alpha.universe.xyz"
   wait_for_certificate_issued = true
+  depends_on                  = [ aws_route53_zone.main ]
 }
 
 module "alpha_marketplace_universe_xyz_frontend" {
@@ -343,9 +345,10 @@ output "universeapp_assets_alpha_marketplace_secret_access_key" {
 module "prod_marketplace_universe_xyz_acm_certificate" {
   source                      = "cloudposse/acm-request-certificate/aws"
   version                     = "0.15.1"
-  zone_name                   = "universe.xyz"
+  zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "marketplace.universe.xyz"
   wait_for_certificate_issued = true
+  depends_on                  = [ aws_route53_zone.main ]
 }
 
 module "prod_marketplace_universe_xyz_frontend" {

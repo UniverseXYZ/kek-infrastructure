@@ -1,6 +1,6 @@
 terraform {
   cloud {
-    organization = "UniverseXYZ"
+    organization = "UniverseXYZ-new"
 
     workspaces {
       name = "kek-infrastructure"
@@ -22,32 +22,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_s3_bucket" "tfstate" {
-  bucket = "tfstate-kekdao"
-  acl    = "private"
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-
-  versioning {
-    enabled = true
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
-
-  tags = {
-    Name        = "tfstate-kekdao"
-    Project     = "kekdao"
-    Environment = "production"
-  }
-}
 
 resource "aws_dynamodb_table" "tfstate_lock" {
   name           = "tfstate-lock-kekdao"

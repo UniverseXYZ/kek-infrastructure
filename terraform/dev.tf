@@ -3,9 +3,10 @@
 module "dev_acm_certificate" {
   source                      = "cloudposse/acm-request-certificate/aws"
   version                     = "0.10.0"
-  zone_name                   = "universe.xyz"
+  zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "dev.dao.universe.xyz"
   wait_for_certificate_issued = true
+  depends_on                  = [ aws_route53_zone.main ]
 }
 
 module "dev_frontend" {
@@ -61,9 +62,10 @@ module "dev_frontend" {
 module "dev_universe_xyz_acm_certificate" {
   source                      = "cloudposse/acm-request-certificate/aws"
   version                     = "0.10.0"
-  zone_name                   = "universe.xyz"
+  zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "dev.universe.xyz"
   wait_for_certificate_issued = true
+  depends_on                  = [ aws_route53_zone.main ]
 }
 
 module "lambda_at_edge" {
