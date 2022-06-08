@@ -3,7 +3,7 @@ terraform {
     organization = "UniverseXYZ-new"
 
     workspaces {
-      name = "kek-infrastructure"
+      name = "infrastructure-test"
     }
   }
 
