@@ -11,7 +11,7 @@ variable "ATLAS_ORG_OWNER_PRIVATEKEY" {
 }
 variable "ATLAS_ORG_OWNER_PUBLICKEY" {
   type = string
-  default = "zygdoxzk"
+  default = "rnghrkia"
 }
 variable "atlas_region" {
   default     = "US_EAST_1"
@@ -45,7 +45,7 @@ variable "dev_vpc_cidr" {
 ##### DEV #####
 # Create Atlas Project and Cluster
 resource "mongodbatlas_project" "aws_atlas_dev" {
-  name   = "Universe-Dev"
+  name   = "Universe-Dev-New"
   org_id = var.atlasorgid
 }
 

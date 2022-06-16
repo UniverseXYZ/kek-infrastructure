@@ -6,7 +6,7 @@ resource "aws_lightsail_key_pair" "liviudm" {
 }
 
 resource "aws_lightsail_instance" "discourse" {
-  name              = "forum-universe-xyz"
+  name              = "new-forum-universe-xyz"
   availability_zone = "us-east-1a"
   blueprint_id      = "ubuntu_20_04"
   bundle_id         = "medium_2_0"

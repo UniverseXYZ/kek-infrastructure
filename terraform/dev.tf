@@ -5,7 +5,7 @@ module "dev_acm_certificate" {
   version                     = "0.10.0"
   zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "dev.dao.universe.xyz"
-  wait_for_certificate_issued = true
+  wait_for_certificate_issued = false 
   depends_on                  = [ aws_route53_zone.main ]
 }
 
@@ -64,7 +64,7 @@ module "dev_universe_xyz_acm_certificate" {
   version                     = "0.10.0"
   zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "dev.universe.xyz"
-  wait_for_certificate_issued = true
+  wait_for_certificate_issued = false
   depends_on                  = [ aws_route53_zone.main ]
 }
 
@@ -161,7 +161,7 @@ module "dev_universe_xyz_frontend" {
 }
 
 resource "aws_s3_bucket" "universeapp_assets_dev" {
-  bucket = "universeapp-assets-dev"
+  bucket = "universeapp-assets-dev-new"
   acl    = "public-read"
   server_side_encryption_configuration {
     rule {
@@ -254,7 +254,7 @@ resource "aws_iam_user_policy" "universeapp_assets_dev" {
 
 # Not used but trying to delete currently fails
 resource "aws_s3_bucket" "lambda" {
-   bucket = "universe-xyz-lambda-functions"
+   bucket = "universe-xyz-lambda-functions-new"
    acl    = "private"
 
    versioning {

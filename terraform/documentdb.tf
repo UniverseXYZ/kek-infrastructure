@@ -1,5 +1,4 @@
 #####ALPHA#####
-
 resource "aws_docdb_cluster_instance" "universe_dev_cluster_master" {
   identifier         = "universe-dev-master"
   cluster_identifier = aws_docdb_cluster.universe_dev.id
@@ -35,7 +34,7 @@ resource "aws_docdb_cluster" "universe_dev" {
   vpc_security_group_ids          = [data.aws_eks_cluster.dev.vpc_config[0].cluster_security_group_id]
   availability_zones              = ["us-east-1a", "us-east-1b", "us-east-1c"]
   db_cluster_parameter_group_name = "universe-dev-no-ssl"
-  kms_key_id                      = "arn:aws:kms:us-east-1:076129510628:key/aa38a691-e008-49a8-8cc2-8241a962a7c9" #aws-managed
+  kms_key_id                      = aws_kms_key.dev_db.arn
   storage_encrypted               = true
   port                            = "27017"
   skip_final_snapshot             = true
@@ -47,7 +46,6 @@ resource "aws_docdb_cluster" "universe_dev" {
 }
 
 #####DEV#####
-
 resource "aws_docdb_cluster_instance" "universe_rinkeby_cluster_slave" {
   identifier         = "universe-rinkeby-slave"
   cluster_identifier = aws_docdb_cluster.universe_rinkeby.id
@@ -79,11 +77,11 @@ resource "aws_docdb_cluster" "universe_rinkeby" {
   engine_version                  = "4.0.0"
   master_username                 = "kekdao"
   master_password                 = var.DEV_DB_PASSWORD
-  db_subnet_group_name            = "dev-universe-20210505160751512000000001"
+  db_subnet_group_name            = "dev-universe-20220609074154362000000010"
   vpc_security_group_ids          = [data.aws_eks_cluster.dev.vpc_config[0].cluster_security_group_id]
   availability_zones              = ["us-east-1a", "us-east-1b", "us-east-1c"]
   db_cluster_parameter_group_name = "universe-dev-no-ssl"
-  kms_key_id                      = "arn:aws:kms:us-east-1:076129510628:key/aa38a691-e008-49a8-8cc2-8241a962a7c9" #aws-managed
+  kms_key_id                      = aws_kms_key.dev_db.arn
   storage_encrypted               = true
   port                            = "27017"
   skip_final_snapshot             = true
@@ -95,7 +93,6 @@ resource "aws_docdb_cluster" "universe_rinkeby" {
 }
 
 #####PROD#####
-
 resource "aws_docdb_cluster_instance" "universe_prod_cluster_slave_1" {
   identifier         = "universe-prod-slave1"
   cluster_identifier = aws_docdb_cluster.universe_prod.id
@@ -122,17 +119,16 @@ resource "aws_docdb_cluster_instance" "universe_prod_cluster_master" {
 
 resource "aws_docdb_cluster" "universe_prod" {
   cluster_identifier              = "universe-prod"
-  snapshot_identifier             = "alpha-gold-03-20-3033"
   apply_immediately               = true
   engine                          = "docdb"
   engine_version                  = "4.0.0"
   master_username                 = "kekdao"
   master_password                 = var.PROD_DB_PASSWORD
-  db_subnet_group_name            = "prod-universe-20210520134829492400000003"
+  db_subnet_group_name            = "prod-universe-20220609074158186400000013"
   vpc_security_group_ids          = [data.aws_eks_cluster.prod.vpc_config[0].cluster_security_group_id]
   availability_zones              = ["us-east-1a", "us-east-1b", "us-east-1c"]
   db_cluster_parameter_group_name = "universe-dev-no-ssl"
-  kms_key_id                      = "arn:aws:kms:us-east-1:076129510628:key/aa38a691-e008-49a8-8cc2-8241a962a7c9" #aws-managed
+  kms_key_id                      = aws_kms_key.prod_db.arn
   storage_encrypted               = true
   port                            = "27017"
   skip_final_snapshot             = true

@@ -1,7 +1,7 @@
 #####ALPHA#####
 
 resource "aws_s3_bucket" "universe_dev_datascraper_video" {
-  bucket = "universe-dev-datascraper-video"
+  bucket = "universe-dev-datascraper-video-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -52,7 +52,7 @@ resource "aws_s3_bucket_policy" "universe_dev_datascraper_video" {
 }
 
 resource "aws_s3_bucket" "universe_dev_datascraper_images" {
-  bucket = "universe-dev-datascraper-images"
+  bucket = "universe-dev-datascraper-images-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -103,7 +103,7 @@ resource "aws_s3_bucket_policy" "universe_dev_datascraper_images" {
 }
 
 resource "aws_s3_bucket" "universe_dev_datascraper_audio" {
-  bucket = "universe-dev-datascraper-audio"
+  bucket = "universe-dev-datascraper-audio-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -155,7 +155,7 @@ resource "aws_s3_bucket_policy" "universe_dev_datascraper_audio" {
 
 
 resource "aws_s3_bucket" "universe_dev_datascraper_models" {
-  bucket = "universe-dev-datascraper-models"
+  bucket = "universe-dev-datascraper-models-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -206,7 +206,7 @@ resource "aws_s3_bucket_policy" "universe_dev_datascraper_models" {
 }
 
 resource "aws_s3_bucket" "universe_dev_datascraper_misc" {
-  bucket = "universe-dev-datascraper-misc"
+  bucket = "universe-dev-datascraper-misc-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -311,7 +311,7 @@ output "dev_datascraper_iam_api_secret" {
 #####DEV#####
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_sqs" {
-  bucket = "universe-rinkeby-datascraper-sqs"
+  bucket = "universe-rinkeby-datascraper-sqs-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -362,7 +362,7 @@ resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_sqs" {
 }
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_video" {
-  bucket = "universe-rinkeby-datascraper-video"
+  bucket = "universe-rinkeby-datascraper-video-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -413,7 +413,7 @@ resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_video" {
 }
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_images" {
-  bucket = "universe-rinkeby-datascraper-images"
+  bucket = "universe-rinkeby-datascraper-images-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -464,7 +464,7 @@ resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_images" {
 }
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_audio" {
-  bucket = "universe-rinkeby-datascraper-audio"
+  bucket = "universe-rinkeby-datascraper-audio-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -515,7 +515,7 @@ resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_audio" {
 }
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_models" {
-  bucket = "universe-rinkeby-datascraper-models"
+  bucket = "universe-rinkeby-datascraper-models-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -566,7 +566,7 @@ resource "aws_s3_bucket_policy" "universe_rinkeby_datascraper_models" {
 }
 
 resource "aws_s3_bucket" "universe_rinkeby_datascraper_misc" {
-  bucket = "universe-rinkeby-datascraper-misc"
+  bucket = "universe-rinkeby-datascraper-misc-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -671,7 +671,7 @@ output "rinkeby_datascraper_iam_api_secret" {
 #####PROD#####
 
 resource "aws_s3_bucket" "universe_prod_datascraper_video" {
-  bucket = "universe-prod-datascraper-video"
+  bucket = "universe-prod-datascraper-video-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -722,7 +722,7 @@ resource "aws_s3_bucket_policy" "universe_prod_datascraper_video" {
 }
 
 resource "aws_s3_bucket" "universe_prod_datascraper_images" {
-  bucket = "universe-prod-datascraper-images"
+  bucket = "universe-prod-datascraper-images-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -773,7 +773,7 @@ resource "aws_s3_bucket_policy" "universe_prod_datascraper_images" {
 }
 
 resource "aws_s3_bucket" "universe_prod_datascraper_audio" {
-  bucket = "universe-prod-datascraper-audio"
+  bucket = "universe-prod-datascraper-audio-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -824,7 +824,7 @@ resource "aws_s3_bucket_policy" "universe_prod_datascraper_audio" {
 }
 
 resource "aws_s3_bucket" "universe_prod_datascraper_models" {
-  bucket = "universe-prod-datascraper-models"
+  bucket = "universe-prod-datascraper-models-new"
   acl    = "private"
 
   server_side_encryption_configuration {
@@ -875,7 +875,7 @@ resource "aws_s3_bucket_policy" "universe_prod_datascraper_models" {
 }
 
 resource "aws_s3_bucket" "universe_prod_datascraper_misc" {
-  bucket = "universe-prod-datascraper-misc"
+  bucket = "universe-prod-datascraper-misc-new"
   acl    = "private"
 
   server_side_encryption_configuration {

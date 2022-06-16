@@ -5,7 +5,7 @@ module "prod_acm_certificate" {
   version                     = "0.10.0"
   zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "dao.universe.xyz"
-  wait_for_certificate_issued = true
+  wait_for_certificate_issued = false
   depends_on                  = [ aws_route53_zone.main ]
 }
 
@@ -17,7 +17,7 @@ module "prod_frontend" {
   environment        = "prod"
   # DNS Settings
   parent_zone_id      = aws_route53_zone.main.zone_id
-  acm_certificate_arn = module.prod_acm_certificate.arn
+  #acm_certificate_arn = module.prod_acm_certificate.arn
   dns_alias_enabled   = true
   aliases             = ["dao.universe.xyz"]
   ipv6_enabled        = true
@@ -60,7 +60,7 @@ module "universe_xyz_acm_certificate" {
   zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "universe.xyz"
   subject_alternative_names   = ["www.universe.xyz"]
-  wait_for_certificate_issued = true
+  wait_for_certificate_issued = false
   depends_on                  = [ aws_route53_zone.main ]
 }
 
@@ -111,7 +111,7 @@ module "universe_xyz_frontend" {
 # s3 bucket with poliy controll
 
 resource "aws_s3_bucket" "universeapp_assets_prod" {
-  bucket = "universeapp-assets-prod"
+  bucket = "universeapp-assets-prod-new"
   acl    = "public-read"
 
   server_side_encryption_configuration {

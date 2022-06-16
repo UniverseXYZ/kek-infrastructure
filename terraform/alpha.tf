@@ -106,7 +106,7 @@ module "alpha_universe_xyz_frontend" {
 
 
 resource "aws_s3_bucket" "alpha_lambda" {
-  bucket = "universe-xyz-alpha-lambda-functions"
+  bucket = "universe-xyz-alpha-lambda-functions-new"
   acl    = "private"
 
   versioning {
@@ -129,7 +129,7 @@ module "alpha_frontend_basic_auth" {
 }
 
 resource "aws_s3_bucket" "universeapp_assets_alpha" {
-  bucket = "universeapp-assets-alpha"
+  bucket = "universeapp-assets-alpha-new"
   acl    = "public-read"
 
   server_side_encryption_configuration {

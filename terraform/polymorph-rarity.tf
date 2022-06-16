@@ -52,7 +52,7 @@ resource "aws_lambda_function" "polymorph_rarity_dev" {
     aws_cloudwatch_log_group.polymorph_rarity_dev,
   ]
   vpc_config {
-    subnet_ids         = ["subnet-008fc641ca146ab49"] #eksctl-dev-i-universe-xyz-cluster/SubnetPublicUSEAST1A
+    subnet_ids         = ["subnet-073b235de63b6f5e0"] #eksctl-dev-i-universe-xyz-cluster/SubnetPublicUSEAST1A
     security_group_ids = [data.aws_eks_cluster.dev.vpc_config[0].cluster_security_group_id]
   }
   environment {

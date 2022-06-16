@@ -5,7 +5,7 @@ module "marketplace_universe_xyz_acm_certificate" {
   version                     = "0.15.1"
   zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "marketplace.dev.universe.xyz"
-  wait_for_certificate_issued = true
+  wait_for_certificate_issued = false
   depends_on                  = [ aws_route53_zone.main ]
 }
 
@@ -48,7 +48,7 @@ module "marketplace_universe_xyz_frontend" {
 
 
 resource "aws_s3_bucket" "marketplace_lambda" {
-  bucket = "universe-xyz-marketplace-lambda-functions"
+  bucket = "universe-xyz-marketplace-lambda-functions-new"
   acl    = "private"
 
   versioning {
@@ -71,7 +71,7 @@ module "marketplace_frontend_basic_auth" {
 }
 
 resource "aws_s3_bucket" "universeapp_assets_marketplace" {
-  bucket = "universeapp-assets-marketplace"
+  bucket = "universeapp-assets-marketplace-new"
   acl    = "public-read"
 
   server_side_encryption_configuration {
@@ -184,7 +184,7 @@ module "alpha_marketplace_universe_xyz_acm_certificate" {
   version                     = "0.15.1"
   zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "marketplace.alpha.universe.xyz"
-  wait_for_certificate_issued = true
+  wait_for_certificate_issued = false
   depends_on                  = [ aws_route53_zone.main ]
 }
 
@@ -240,7 +240,7 @@ module "alpha_marketplace_frontend_basic_auth" {
 }
 
 resource "aws_s3_bucket" "universeapp_assets_alpha_marketplace" {
-  bucket = "universeapp-assets-alpha-marketplace"
+  bucket = "universeapp-assets-alpha-marketplace-new"
   acl    = "public-read"
 
   server_side_encryption_configuration {
@@ -347,7 +347,7 @@ module "prod_marketplace_universe_xyz_acm_certificate" {
   version                     = "0.15.1"
   zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "marketplace.universe.xyz"
-  wait_for_certificate_issued = true
+  wait_for_certificate_issued = false
   depends_on                  = [ aws_route53_zone.main ]
 }
 
@@ -389,7 +389,7 @@ module "prod_marketplace_universe_xyz_frontend" {
 }
 
 resource "aws_s3_bucket" "universeapp_assets_prod_marketplace" {
-  bucket = "universeapp-assets-prod-marketplace"
+  bucket = "universeapp-assets-prod-marketplace-new"
   acl    = "public-read"
 
   server_side_encryption_configuration {

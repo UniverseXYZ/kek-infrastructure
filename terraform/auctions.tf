@@ -5,7 +5,7 @@ module "auctions_universe_xyz_acm_certificate" {
   version                     = "0.10.0"
   zone_name                   = "${aws_route53_zone.main.name}"
   domain_name                 = "auctions.dev.universe.xyz"
-  wait_for_certificate_issued = true
+  wait_for_certificate_issued = false
   depends_on                  = [ aws_route53_zone.main ]
 }
 
@@ -47,7 +47,7 @@ module "auctions_universe_xyz_frontend" {
 
 
 resource "aws_s3_bucket" "auctions_lambda" {
-  bucket = "universe-xyz-auctions-lambda-functions"
+  bucket = "universe-xyz-auctions-lambda-functions-new"
   acl    = "private"
 
   versioning {
@@ -70,7 +70,7 @@ module "auctions_frontend_basic_auth" {
 }
 
 resource "aws_s3_bucket" "universeapp_assets_auctions" {
-  bucket = "universeapp-assets-auctions"
+  bucket = "universeapp-assets-auctions-new"
   acl    = "public-read"
 
   server_side_encryption_configuration {

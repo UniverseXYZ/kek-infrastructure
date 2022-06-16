@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "universeapp_local_dev" {
-  bucket = "universeapp-local-dev"
+  bucket = "universeapp-local-dev-new"
   acl    = "public-read"
 
   server_side_encryption_configuration {
